@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-stdin-once
+spec:
+  containers:
+  - name: kubia
+    image: luksa/kubia:1.0-stdin
+    imagePullPolicy: Always
+    stdin: true
+    stdinOnce: true
+    ports:
+    - containerPort: 8080
