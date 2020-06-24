@@ -15,22 +15,13 @@ The code archive is organized per chapter. You'll find a description of the file
 ### Part I: First time on a boat: Introduction to Kubernetes
 
 #### 1) Introducing Kubernetes (no code files)
-This chapter provides an introduction to Kubernetes and contains no hands-on exercises.
-
 #### 2) [Understanding containers](Chapter02/)
-This is where you build the container image of the kubia application.
-
 #### 3) [Deploying your first application](Chapter03/)
-This is where you create the Kubernetes cluster and deploy the kubia application.
-
 
 ### Part II: Learning the ropes: Kubernetes API objects
 
 #### 4) Introducing the Kubernetes API objects
-This chapter explains API objects. The commands you execute are explained in the book. This code archive contains no code in this chapter.
-
 #### 5) [Running applications in Pods](Chapter05/)
-
 #### ... other chapters coming soon
 
 
