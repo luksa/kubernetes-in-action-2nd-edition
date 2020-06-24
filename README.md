@@ -12,7 +12,7 @@ You can take a [quick look online](https://livebook.manning.com/book/kubernetes-
 
 The code archive is organized per chapter. You'll find a description of the files by following the links below.  
 
-### Part I: First time on a boat: Introduction to Kubernetes
+### Part I: First time on a boat: _Introduction to Kubernetes_
 
 1\) Introducing Kubernetes (no code files)
 
@@ -20,7 +20,7 @@ The code archive is organized per chapter. You'll find a description of the file
 
 3\) [Deploying your first application](Chapter03/)
 
-### Part II: Learning the ropes: Kubernetes API objects
+### Part II: Learning the ropes: _Kubernetes API objects_
 
 4\) Introducing the Kubernetes API objects
 
