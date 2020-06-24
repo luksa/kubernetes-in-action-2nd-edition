@@ -2,7 +2,9 @@
 
 ## Chapter 2. Understanding containers
 
-Included files:
-- [The files of the kubia application](kubia-v1-image)
-  - [Application code (app.js)](kubia-v1-image/app.js)
-  - [Docker build file (Dockerfile)](kubia-v1-image/Dockerfile)
+### Creating the Kubia container image
+
+Building the **`kubia:1.0`** image:
+- [Makefile](kubia-v1-image/Makefile) - contains commands to build and push the image
+- [Dockerfile](kubia-v1-image/Dockerfile) - Docker instructions for building the image
+- [app.js](kubia-v1-image/app.js) - application code (JavaScript)

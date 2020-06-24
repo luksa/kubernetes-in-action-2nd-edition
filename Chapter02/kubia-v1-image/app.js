@@ -7,7 +7,7 @@ console.log("Kubia server starting...");
 console.log("Local hostname is " + os.hostname());
 console.log("Listening on port " + listenPort);
 
-var handler = function(request, response) {
+let handler = function(request, response) {
   let clientIP = request.connection.remoteAddress;
   console.log("Received request for " + request.url + " from " + clientIP);
   response.writeHead(200);
@@ -16,5 +16,5 @@ var handler = function(request, response) {
   response.end("\n");
 };
 
-var server = http.createServer(handler);
+let server = http.createServer(handler);
 server.listen(listenPort);
