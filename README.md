@@ -14,15 +14,19 @@ The code archive is organized per chapter. You'll find a description of the file
 
 ### Part I: First time on a boat: Introduction to Kubernetes
 
-#### 1) Introducing Kubernetes (no code files)
-#### 2) [Understanding containers](Chapter02/)
-#### 3) [Deploying your first application](Chapter03/)
+1\) Introducing Kubernetes (no code files)
+
+2\) [Understanding containers](Chapter02/)
+
+3\) [Deploying your first application](Chapter03/)
 
 ### Part II: Learning the ropes: Kubernetes API objects
 
-#### 4) Introducing the Kubernetes API objects
-#### 5) [Running applications in Pods](Chapter05/)
-#### ... other chapters coming soon
+4\) Introducing the Kubernetes API objects
+
+5\) [Running applications in Pods](Chapter05/)
+
+... other chapters coming soon
 
 
 ## Contributing
