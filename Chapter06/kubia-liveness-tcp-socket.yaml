@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-liveness-tcp-socket
+spec:
+  containers:
+  - name: kubia
+    image: luksa/kubia:1.0
+    ports:
+    - name: http
+      containerPort: 8080
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      periodSeconds: 2
+      failureThreshold: 1

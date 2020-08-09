@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-prestop
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    lifecycle:
+      postStart:
+        exec:
+          command:
+          - sh
+          - -c
+          - "apk add fortune && fortune > /usr/share/nginx/html/quote"
+      preStop:
+        exec:
+          command:
+          - nginx
+          - -s
+          - quit
+    ports:
+    - name: http
+      containerPort: 80

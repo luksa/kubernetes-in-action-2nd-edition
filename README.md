@@ -26,6 +26,8 @@ The code archive is organized per chapter. You'll find a description of the file
 
 5\) [Running applications in Pods](Chapter05/)
 
+6\) [Managing the lifecycle of the Pod's containers](Chapter06/)
+
 ... other chapters coming soon
 
 

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-startup-probe
+spec:
+  containers:
+  - name: kubia
+    image: luksa/kubia:1.0
+    ports:
+    - name: http
+      containerPort: 8080
+    startupProbe:
+      httpGet:
+        path: /
+        port: http
+      periodSeconds: 10
+      failureThreshold:  12
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+      periodSeconds: 5
+      failureThreshold: 1
+  - name: envoy
+    image: luksa/kubia-ssl-proxy:1.0
+    ports:
+    - name: https
+      containerPort: 8443
+    - name: admin
+      containerPort: 9901
+    livenessProbe:
+      httpGet:
+        path: /ready
+        port: admin
+      initialDelaySeconds: 10
+      periodSeconds: 3
+      timeoutSeconds: 2
+      failureThreshold: 5

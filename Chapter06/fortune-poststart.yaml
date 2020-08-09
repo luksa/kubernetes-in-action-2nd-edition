@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-poststart
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    lifecycle:
+      postStart:
+        exec:
+          command:
+          - sh
+          - -c
+          - "apk add fortune && fortune > /usr/share/nginx/html/quote"
+    ports:
+    - name: http
+      containerPort: 80

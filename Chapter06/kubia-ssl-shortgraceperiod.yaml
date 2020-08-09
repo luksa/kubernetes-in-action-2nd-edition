@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-ssl-shortgraceperiod
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: kubia
+    image: luksa/kubia:1.0
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: envoy
+    image: luksa/kubia-ssl-proxy:1.0
+    ports:
+    - name: https
+      containerPort: 8443
+    - name: admin
+      containerPort: 9901
