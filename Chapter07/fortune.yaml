@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-shared-volume
+spec:
+  volumes:
+  - name: content
+    emptyDir: {}
+  containers:
+  - name: fortune
+    image: luksa/fortune-writer:1.0
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: content
+      mountPath: /var/local/output
+  - name: nginx
+    image: nginx:alpine
+    volumeMounts:
+    - name: content
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - name: http
+      containerPort: 80
