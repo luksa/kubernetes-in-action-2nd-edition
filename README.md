@@ -22,7 +22,7 @@ The code archive is organized per chapter. You'll find a description of the file
 
 ### Part II: Learning the ropes: _Kubernetes API objects_
 
-4\) Introducing the Kubernetes API objects
+4\) Introducing the Kubernetes API objects (no code files)
 
 5\) [Running applications in Pods](Chapter05/)
 
