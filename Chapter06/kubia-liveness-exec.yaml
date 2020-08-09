@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kubia-liveness-tcp-socket
+  name: kubia-liveness-exec
 spec:
   containers:
   - name: kubia
