@@ -28,6 +28,8 @@ The code archive is organized per chapter. You'll find a description of the file
 
 6\) [Managing the lifecycle of the Pod's containers](Chapter06/)
 
+7\) [Mounting storage volumes into the Pod's containers](Chapter07/)
+
 ... other chapters coming soon
 
 
