@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-explorer
+spec:
+  nodeName: "replace this with the name of the node you'd like to target"
+  volumes:
+  - name: host-root
+    hostPath:
+      path: /
+  containers:
+  - name: node-explorer
+    image: alpine
+    command: ["sleep", "9999999999"]
+    volumeMounts:
+    - name: host-root
+      mountPath: /host
+
+
