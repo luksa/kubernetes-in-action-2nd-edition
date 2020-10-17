@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-claim
+spec:
+  volumeName: mongodb
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+

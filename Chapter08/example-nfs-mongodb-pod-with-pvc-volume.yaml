@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb-nfs
+spec:
+  volumes:
+  - name: mongodb-data
+    persistentVolumeClaim:
+      claimName: mongodb-claim
+  containers:
+  - name: mongodb
+    image: mongo
+    volumeMounts:
+    - name: mongodb-data
+      mountPath: /data/db

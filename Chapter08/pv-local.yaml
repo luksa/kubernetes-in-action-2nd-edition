@@ -1,0 +1,21 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: local-ssd-on-kind-worker
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local
+  capacity:
+    storage: 10Gi
+  local:
+    path: /mnt/ssd1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - kind-worker
+
