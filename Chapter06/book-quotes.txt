@@ -1,0 +1,322 @@
+Kubectl is pronounced kube-control, but the softer souls in the community prefer to call it kubecuddle. Some refer to it as kube-C-T-L.
+%
+Two types of hypervisors exist. Type 1 hypervisors don’t require running a host OS, while type 2
+hypervisors do.
+%
+This can’t happen in Kubernetes, because it requires that swap is disabled on all the nodes.
+%
+Even seemingly harmless operations such as changing permissions or ownership of a file result
+in a new copy of the entire file being created in the read/write layer. If you perform this type of operation on
+a large file or many files, the image size may swell significantly.
+%
+Docker Desktop for Windows can run either Windows or Linux containers. Make sure that you
+configure it to use Linux containers.
+%
+If you want to run an image from a different registry, you must specify the registry along with the
+image name. For example, if you want to run an image from the Quay.io registry, which is another publicly
+accessible image registry, run it as follows: docker run quay.io/some/image.
+%
+The docker run command only pulls the image if it hasn’t already pulled it before. Using the
+%
+The hostname in the response is the server’s actual hostname, not the one sent by the client in the
+request’s Host header. This detail will be important later.
+%
+Don’t add unnecessary files to the build directory, as they will slow down the build process—especially if
+the Docker daemon is located on a remote system.
+%
+Each directive creates a new layer. I have already mentioned that when you delete a file, it is only
+marked as deleted in the new layer and is not removed from the layers below. Therefore, deleting a file with
+a subsequent directive won’t reduce the size of the image. If you use the RUN directive, make sure that the
+command it executes deletes all temporary files it creates before it terminates.
+%
+If the Docker Daemon runs on a different machine, you must replace localhost with the IP of that
+%
+The shell’s executable file must be available in the container’s file system. This isn’t always the case
+with containers running in production.
+%
+If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon,
+as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command:
+docker
+%
+Entering a running container like this is useful when debugging an app running in a container. When
+something breaks, the first thing you’ll want to investigate is the actual state of the system your application
+sees.
+%
+With Docker you create a privileged container by using the --privileged flag.
+%
+Always follow the principle of least privilege when running containers. Don’t give them any
+capabilities that they don’t need. This prevents attackers from using them to gain access to your operating
+system.
+%
+Although technically not a cluster, the single-node Kubernetes system provided by Docker Desktop
+should be enough to explore most of the topics discussed in this book. When an exercise requires a multinode cluster, I will point this out.
+%
+The initial installation of the cluster takes several minutes, as all container images for the Kubernetes
+components must be downloaded.
+%
+If you configure Minikube to use a VM, you don’t need Docker, but you do need a hypervisor like
+VirtualBox. In the other case you need Docker, but not the hypervisor.
+%
+If you use Linux, you can reduce the resources required by Minikube by creating the cluster without a VM.
+Use this command: minikube start --vm-driver none
+%
+If you want to list containers using your local docker CLI instance, as in the case of Docker Desktop, run
+the following command: eval $(minikube docker-env)
+%
+Docker must be installed on your system to use kind.
+%
+Due to width restrictions, the node names control-plane, worker1, and worker2 are used
+%
+Certain operations (the one in step 2, for example) may take a few minutes to complete, so relax
+and grab a coffee in the meantime.
+%
+I’m creating all three worker nodes in the same zone, but you can also spread them across all zones
+in the region by setting the compute/zone config value to an entire region instead of a single zone. If you
+%
+Each VM incurs costs. To reduce the cost of your cluster, you can reduce the number of nodes to one, or
+even to zero while not using it. See next section for details.
+%
+You can always append --help to any kubectl command to get information on what it does and how
+to use it.
+%
+You may not need an alias if you used gcloud to set up the cluster. It installs the k binary in
+%
+If you want to use several Kubernetes clusters (for example, both Minikube and GKE), see appendix A
+for information on switching between different kubectl contexts.
+%
+Executing the describe command without specifying the object name is useful when only one object
+of a certain type exists. You don’t have to type or copy/paste the object name.
+%
+This command must be run in Windows PowerShell.
+Find the token listed under kubernetes-dashboard-token-xyz and paste it into the token
+field on the authentication page shown in your browser. After you do this, you should be able
+to use the dashboard. When you’re finished using it, terminate the kubectl proxy process
+using Control-C.
+%
+Make sure that the image is stored in a public registry and can be pulled without access authorization.
+You’ll learn how to provide credentials for pulling private images in chapter 8.
+%
+Notice the use of the abbreviation svc instead of services. Most resource types have a short
+%
+If you deployed your cluster with Docker Desktop, the load balancer’s IP address is shown as
+localhost, referring to your Windows or macOS machine, not the VM where Kubernetes and the
+%
+If you use Docker Desktop, the service is available at localhost:8080 from within your host
+operating system. Use curl or your browser to access it.
+%
+If you omit the --url option when running the minikube service command, your browser opens
+%
+If you use Docker Desktop, the VM running Kubernetes can’t be reached from your host OS through
+the VM’s IP. You can access the service through the node port only within the VM by logging into it using the
+special container as described in section 3.1.1.
+%
+You can also use the -o wide output option to see additional information when listing other object
+types.
+%
+The app itself must support horizontal scaling. Kubernetes doesn’t magically make your app scalable;
+it merely makes it trivial to replicate it.
+%
+Because the term “resource” can also refer to compute resources, such as CPU and memory, to
+reduce confusion, the term “objects” is used in this book to refer to API resources.
+%
+Although the figure shows that users write to the object’s Spec section and read its Status, the API
+server always returns the entire object when you perform a GET request; to update the object, you also send
+the entire object in the PUT request.
+%
+Node objects are slightly different from other objects because they are usually created by the Kubelet
+- the node agent running on the cluster node - rather than by users. When you add a machine to the cluster,
+the Kubelet registers the node by creating a Node object that represents the host. Users can then edit (some
+of) the fields in the Spec section.
+%
+Use the -o json option to display the object in JSON instead of YAML.
+In the listing, the four main sections of the object definition and the more important
+properties of the node are annotated to help you distinguish between the more and less
+important fields. Some lines have been omitted to reduce the length of the manifest.
+%
+If you want to see the complete structure of an object (the complete hierarchical list of fields without
+the descriptions), try kubectl explain pods --recursive.
+%
+The jq tool is very handy if you want to see only a part of the object’s structure. For example, to display
+the node’s status conditions, you can run kubectl
+%
+Conditions are usually orthogonal, meaning that they represent unrelated aspects of the object.
+If the state of an object were represented as a single field, it would be very difficult to
+subsequently extend it with new values, as this would require updating all clients that
+monitor the state of the object and perform actions based on it. Some object kinds originally
+used such a single field, and some still do, but most now use a list of conditions instead.
+Since the focus of this chapter is to introduce the common features of the Kubernetes API
+objects, we’ve focused only on the conditions field, but it is far from being the only field in
+the status of the Node object. To explore the others, use the kubectl explain command as
+%
+The amount of time to retain events is configurable via the API server’s command-line options.
+%
+If you want to follow the exercises in this section in your own cluster, you may need to restart one of
+the nodes to ensure that the events are recent enough to still be present in etcd. If you can’t do this, don’t
+worry, and just skip doing these exercises yourself, as you’ll also be generating and inspecting events in the
+exercises in the next chapter.
+%
+The previous listing uses the short name ev in place of events.
+You’ll notice that some events displayed in the listing match the status conditions of the
+Node. This is often the case, but you’ll also find additional events. The two events with the
+reason Starting are two such examples. In the case at hand, they signal that the Kubelet
+%
+As you complete the exercises throughout this book, you may find it useful to run the kubectl get
+%
+When containers of the same pod use separate PID namespaces, they can’t see each other or send
+process signals like SIGTERM or SIGINT between them.
+%
+You’ll create this pod in section 5.4.
+Another example, shown in figure 5.7, is a pod where the primary container runs a web
+server that serves files from its webroot directory. The other container in the pod is an agent
+that periodically downloads content from an external source and stores it in the web server’s
+webroot directory. As I mentioned earlier, two containers can share files by sharing a
+volume. The webroot directory would be located on this volume.
+%
+You’ll create this pod in the chapter 7.
+%
+The decision whether to use YAML or JSON to define your objects is yours. Most people prefer to use
+YAML because it’s slightly more human-friendly and allows you to add comments to the object definition.
+%
+Whenever you want to create a pod manifest from scratch, you can also use the following command to
+create the file and then edit it to add more fields: kubectl run kiada --image=luksa/kiada:0.1
+%
+You can also modify the command to run the bash shell in the client pod and then run curl from the
+%
+The kubectl port-forward command can also forward connections to services instead of pods
+and has several other useful features. Run kubectl port-forward --help to learn more.
+%
+The application in the container must be bound to a port on the loopback device for the Kubelet to
+reach it. If it listens only on the pod’s eth0 network interface, you won’t be able to reach it with the
+kubectl port-forward command.
+%
+You can display timestamps by only typing --timestamps without the value. For boolean options,
+merely specifying the option name sets the option to true. This applies to all kubectl options that take a
+Boolean value and default to false.
+%
+Kubectl options that take a value can be specified with an equal sign or with a space. Instead of -tail=10, you can also type --tail 10.
+%
+Depending on your cluster configuration, the log files may also be rotated when they reach a certain
+size. In this case, kubectl logs will only display the new log file. When streaming the logs, you must
+restart the command to switch to the new file.
+%
+The kubectl cp command requires the tar binary to be present in your container, but this
+requirement may change in the future.
+%
+TO MEAP READERS Ephemeral containers are currently an alpha feature, which means they may
+change or even be removed at any time. This is also why they are currently not explained in this book. If they
+graduate to beta before the book goes into production, a section explaining them will be added.
+%
+Like the kubectl exec command, kubectl attach also supports the --tty or -t option, which
+%
+An additional field in the container definition, stdinOnce, determines whether the standard input
+channel is closed when the attach session ends. It’s set to false by default, which allows you to use the
+%
+If you don’t provide the name, kubectl exec defaults to the first container specified in the pod
+manifest.
+%
+Container names must be unique within the union of all init and regular containers.
+%
+By default, the kubectl delete command waits until the object no longer exists. To skip the wait, run
+the command with the --wait=false option.
+%
+If you’re familiar with Docker, you may wonder if you can stop a pod and start it again later, as you
+can with Docker containers. The answer is no. With Kubernetes, you can only remove a pod completely and
+create it again later.
+%
+You can also apply several files at the same time using this syntax (for example: kubectl apply f kiada.yaml,kiada-ssl.yaml).
+%
+Use the --recursive flag to also scan subdirectories.
+%
+You can specify multiple object types in the delete command. For example, you can use kubectl
+delete events,all --all to delete events along with all object kinds included in all.
+%
+Remember the jq tool? You can use it instead to print out the value of the phase field like this:
+kubectl get po kiada -o json | jq .status.phase
+%
+You can also display the container status(es) using jq like this: kubectl get po kiada -o json
+| jq .status.containerStatuses
+%
+If one of the pod’s containers fails, the other containers continue to run.
+Now examine the output of the kubectl get events -w command you ran earlier. It is
+%
+Any data that the process writes to the container’s filesystem is lost when the container is recreated.
+This behavior is sometimes undesirable. To persist data, you must add a storage volume to the pod, as
+explained in the next chapter.
+%
+If init containers are defined in the pod and one of the pod’s regular containers is restarted, the init
+containers are not executed again.
+%
+Surprisingly, the restart policy is configured at the pod level and applies to all its containers. It can’t be
+configured for each container individually.
+%
+The delay is reset to zero when the container has run successfully for 10 minutes. If the container
+must be restarted later, it is restarted immediately.
+%
+When you tell Envoy to terminate, it terminates with exit code zero, which means it hasn’t crashed.
+The CrashLoopBackOff status can therefore be misleading.
+%
+Liveness probes can only be used in the pod’s regular containers. They can’t be defined in init
+containers.
+%
+In addition to a liveness probe, a container may also have a startup probe, which is discussed in
+section 6.2.6, and a readiness probe, which is explained in chapter 10.
+%
+As you can see in the envoy container’s liveness probe, you can specify the probe’s target port by
+name instead of by number.
+%
+Exit code 128+n indicates that the process exited due to external signal n. Exit code 137 is 128+9,
+%
+If the startup probe fails often enough to reach the failureThreshold, the container is terminated
+as it the liveness probe had failed.
+%
+Make sure that the /healthz HTTP endpoint doesn’t require authentication; otherwise the probe will
+always fail, causing your container to be restarted indefinitely.
+%
+When running a Java application in your container, you may want to use an HTTP GET probe instead of
+an exec liveness probe that starts an entire JVM. The same applies to commands that require considerable
+computing resources.
+%
+The same as with liveness probes, lifecycle hooks can only be applied to regular containers and not to
+init containers. Unlike probes, lifecycle hooks do not support tcpSocket handlers.
+%
+Because the state of a pod can change quickly, inspecting just its status may not tell you everything you
+need to know. Rather than inspecting the state at a particular moment in time, reviewing the pod’s events is
+usually a better way to get the full picture.
+%
+You can’t specify both an exec and an httpGet post-start hook for a container. You can only specify
+%
+Using an HTTP GET post-start hook with applications that don’t immediately start accepting
+connections can cause the container to enter an endless restart loop.
+%
+When container termination is initiated, the liveness and other probes are no longer invoked.
+%
+If successful completion of the pre-stop hook is critical to the proper operation of your system, make
+sure that it runs successfully. I’ve experienced situations where the pre-stop hook didn’t run at all, but the
+engineers weren’t even aware of it.
+%
+If the imagePullPolicy is set to Always and the image registry is offline, the container will
+%
+If the container needs to be restarted and imagePullPolicy is set to Always, the container image
+%
+If one of the container images can’t be pulled, the other containers run anyway.
+Containers don’t necessarily start at the same moment. If pulling the image takes a long time,
+the container may start well after all the others have already started. Bear this in mind if one of your
+containers depends on another.
+%
+A reduction of the termination grace period is rarely necessary. However, it is advisable to extend it if the
+application usually needs more time to shut down gracefully.
+%
+If you set the termination grace period to zero, the pod’s pre-stop hooks are not executed.
+%
+You should make sure that your init containers also handle the TERM signal so that they shut down
+immediately if you delete the pod object while it’s still being initialized.
+%
+Before you mount a volume in a container to preserve files across container restarts, consider how this
+affects the container’s self-healing capability.
+%
+The emptyDir field in the volume definition defines neither of these properties. The curly braces {}
+%
+To adapt this exercise for use with other cloud providers, use the appropriate volume type supported by
+the cloud provider. Consult the documentation provided by the cloud provider to determine how to create the
+storage volume and how to mount it into the pod.
+%
