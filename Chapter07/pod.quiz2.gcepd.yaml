@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quiz2
+spec:
+  volumes:
+  - name: quiz-data
+    gcePersistentDisk:
+      pdName: quiz-data
+      fsType: ext4
+  containers:
+  - name: quiz-api
+    image: luksa/quiz-api:0.1
+    imagePullPolicy: Always
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: mongo
+    image: mongo
+    volumeMounts:
+    - name: quiz-data
+      mountPath: /data/db
+

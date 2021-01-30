@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: data-writer-
+spec:
+  volumes:
+  - name: other-data
+    persistentVolumeClaim:
+      claimName: other-data
+  containers:
+  - name: writer
+    image: busybox
+    imagePullPolicy: Always
+    command:
+    - sh
+    - -c
+    - |
+      echo "A writer pod wrote this." > /other-data/${HOSTNAME} &&
+      echo "I can write to /other-data/${HOSTNAME}." ;
+      sleep 9999
+    volumeMounts:
+    - name: other-data
+      mountPath: /other-data
+    resources:
+      requests:
+        cpu: 1m
+

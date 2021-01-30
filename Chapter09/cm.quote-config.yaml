@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quote-config
+data:
+  interval: "60"
+  mykey: myvalue
+  another-key: another-value

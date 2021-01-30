@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-stdin-tty
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.2
+    imagePullPolicy: Always
+    stdin: true
+    tty: true
+    ports:
+    - containerPort: 8080

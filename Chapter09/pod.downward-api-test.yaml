@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: downward-api-test
+  labels:
+    foo: foo-label
+    bar: bar-label
+  annotations:
+    foo: foo-annotation
+    bar: bar-annotation
+spec:
+  containers:
+  - name: test
+    image: busybox
+    command:
+    - sh
+    - -c
+    - 'echo "Environment variables:" ; env | grep DOWNWARDAPI_ | sort ; echo ; echo "Files:" ; for file in `ls /downwardAPI`; do echo "$file:"; cat /downwardAPI/$file; echo; echo; done; sleep 9999999999'
+    resources:
+      requests:
+        cpu: 1
+        memory: 10M
+        ephemeral-storage: 10G
+      limits:
+        cpu: 2
+        memory: 20M
+        ephemeral-storage: 20G
+    env:
+    - name: DOWNWARDAPI_METADATA_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: DOWNWARDAPI_METADATA_NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+    - name: DOWNWARDAPI_METADATA_UID
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.uid
+# Unsupported
+#    - name: DOWNWARDAPI_METADATA_LABELS
+#      valueFrom:
+#        fieldRef:
+#          fieldPath: metadata.labels
+    - name: DOWNWARDAPI_METADATA_LABELS_FOO
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels['foo']
+# Unsupported
+#    - name: DOWNWARDAPI_METADATA_ANNOTATIONS
+#      valueFrom:
+#        fieldRef:
+#          fieldPath: metadata.annotations
+    - name: DOWNWARDAPI_METADATA_ANNOTATIONS_FOO
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.annotations['foo']
+    - name: DOWNWARDAPI_SPEC_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: DOWNWARDAPI_SPEC_SERVICE_ACCOUNT_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.serviceAccountName
+    - name: DOWNWARDAPI_STATUS_POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: DOWNWARDAPI_STATUS_HOST_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    - name: DOWNWARDAPI_REQUESTS_CPU
+      valueFrom:
+        resourceFieldRef:
+          resource: requests.cpu
+    - name: DOWNWARDAPI_REQUESTS_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: requests.memory
+    - name: DOWNWARDAPI_REQUESTS_EPHEMERAL_STORAGE
+      valueFrom:
+        resourceFieldRef:
+          resource: requests.ephemeral-storage
+    - name: DOWNWARDAPI_LIMITS_CPU
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.cpu
+    - name: DOWNWARDAPI_LIMITS_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.memory
+    - name: DOWNWARDAPI_LIMITS_EPHEMERAL_STORAGE
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.ephemeral-storage
+    volumeMounts:
+    - name: downward-api
+      mountPath: /downwardAPI
+  volumes:
+  - name: downward-api
+    downwardAPI:
+      items:
+      - path: metadata.name
+        fieldRef: 
+          fieldPath: metadata.name
+      - path: metadata.namespace
+        fieldRef:
+          fieldPath: metadata.namespace
+      - path: metadata.uid
+        fieldRef:
+          fieldPath: metadata.uid
+      - path: metadata.labels
+        fieldRef:
+          fieldPath: metadata.labels
+      - path: metadata.labels.foo
+        fieldRef:
+          fieldPath: metadata.labels['foo']
+      - path: metadata.annotations
+        fieldRef:
+          fieldPath: metadata.annotations
+      - path: metadata.annotations.foo
+        fieldRef:
+          fieldPath: metadata.annotations['foo']
+# Unsupported values:
+#      - path: spec.nodeName
+#        fieldRef:
+#          fieldPath: spec.nodeName
+#      - path: spec.serviceAccountName
+#        fieldRef:
+#          fieldPath: spec.serviceAccountName
+#      - path: status.podIP
+#        fieldRef:
+#          fieldPath: status.podIP
+#      - path: status.hostIP
+#        fieldRef:
+#          fieldPath: status.hostIP
+      - path: requests.cpu
+        resourceFieldRef:
+          containerName: test
+          resource: requests.cpu
+      - path: requests.memory
+        resourceFieldRef:
+          containerName: test
+          resource: requests.memory
+      - path: requests.ephemeral-storage
+        resourceFieldRef:
+          containerName: test
+          resource: requests.ephemeral-storage
+      - path: limits.cpu
+        resourceFieldRef:
+          containerName: test
+          resource: limits.cpu
+      - path: limits.memory
+        resourceFieldRef:
+          containerName: test
+          resource: limits.memory
+      - path: limits.ephemeral-storage
+        resourceFieldRef:
+          containerName: test
+          resource: limits.ephemeral-storage
+
+

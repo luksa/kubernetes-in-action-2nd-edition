@@ -2,5 +2,5 @@
 
 set -x
 
-kubectl expose deployment kubia --type=LoadBalancer --port=8080
+kubectl expose deployment kiada --type=LoadBalancer --port=8080
 

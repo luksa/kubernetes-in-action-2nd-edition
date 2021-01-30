@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quiz-db-initializer
+spec:
+  volumes:
+  - name: quiz-data
+    persistentVolumeClaim:
+      claimName: quiz-data
+  containers:
+  - name: initializer
+    image: luksa/quiz-db-initializer:0.1
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: quiz-data
+      mountPath: /data/db
+

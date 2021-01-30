@@ -6,6 +6,6 @@
 - [create-kind-cluster.sh](create-kind-cluster.sh) - script that creates the cluster
 - [kind-multi-node.yaml](kind-multi-node.yaml) - configuration file for kind
 
-### Creating the kubia Deployment and Service
-- [crete-deployment.sh](create-deployment.sh) - creates a Deployment object that runs the kubia application 
-- [expose-deployment.sh](expose-deployment.sh) - exposes the kubia application to the world
+### Creating the Kiada Deployment and Service
+- [crete-deployment.sh](create-deployment.sh) - creates a Deployment object that runs the Kiada application 
+- [expose-deployment.sh](expose-deployment.sh) - exposes the Kiada application to the world
