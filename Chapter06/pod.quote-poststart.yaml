@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote-poststart
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    ports:
+    - name: http
+      containerPort: 80
+    lifecycle:
+      postStart:
+        exec:
+          command:
+          - sh
+          - -c
+          - |
+            apk add fortune && \
+            curl -O https://luksa.github.io/kiada/book-quotes.txt && \
+            curl -O https://luksa.github.io/kiada/book-quotes.txt.dat && \
+            fortune book-quotes.txt > /usr/share/nginx/html/quote

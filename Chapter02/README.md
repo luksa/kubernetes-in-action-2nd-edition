@@ -2,9 +2,9 @@
 
 ## Chapter 2. Understanding containers
 
-### Creating the Kubia container image
+### Creating the Kiada container image
 
-Building the **`kubia:1.0`** image:
-- [Makefile](kubia-v1-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](kubia-v1-image/Dockerfile) - Docker instructions for building the image
-- [app.js](kubia-v1-image/app.js) - application code (JavaScript)
+Building the **`kiada:1.0`** image:
+- [Makefile](kiada-0.1-image/Makefile) - contains commands to build and push the image
+- [Dockerfile](kiada-0.1-image/Dockerfile) - Docker instructions for building the image
+- [app.js](kiada-0.1-image/app.js) - application code (JavaScript)

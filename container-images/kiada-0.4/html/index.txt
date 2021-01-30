@@ -1,0 +1,3 @@
+Request processed by Kiada {{version}} running in pod "{{podName}}" on node "{{nodeName}}".
+Pod hostname: {{hostname}}; Pod IP: {{podIP}}; Node IP: {{nodeIP}}. Client IP: {{clientIP}}
+{{statusMessage}}

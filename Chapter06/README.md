@@ -4,26 +4,26 @@
 
 
 ### Adding a liveness probe
-- [kubia-liveness.yaml](kubia-liveness.yaml) - YAML manifest file for the `kubia-liveness` pod
-- [kubia-liveness-tcp-socket.yaml](kubia-liveness-tcp-socket.yaml) - YAML manifest file for the `kubia-liveness-tcp-socket` pod
-- [kubia-liveness-exec.yaml](kubia-liveness-exec.yaml) - YAML manifest file for the `kubia-liveness-exec` pod
+- [kiada-liveness.yaml](kiada-liveness.yaml) - YAML manifest file for the `kiada-liveness` pod
+- [kiada-liveness-tcp-socket.yaml](kiada-liveness-tcp-socket.yaml) - YAML manifest file for the `kiada-liveness-tcp-socket` pod
+- [kiada-liveness-exec.yaml](kiada-liveness-exec.yaml) - YAML manifest file for the `kiada-liveness-exec` pod
 
 ### Adding a startup probe
-- [kubia-startup-probe.yaml](kubia-startup-probe.yaml) - YAML manifest file for the `kubia-startup-probe` pod
+- [kiada-startup-probe.yaml](kiada-startup-probe.yaml) - YAML manifest file for the `kiada-startup-probe` pod
 
 ### Adding lifecycle hooks
-- [fortune-poststart.yaml](fortune-poststart.yaml) - YAML manifest file for the `fortune-poststart` pod
-- [fortune-prestop.yaml](fortune-prestop.yaml) - YAML manifest file for the `fortune-prestop` pod
+- [quote-poststart.pod.yaml](quote-poststart.pod.yaml) - YAML manifest file for the `quote-poststart` pod
+- [quote-prestop.pod.yaml](quote-prestop.pod.yaml) - YAML manifest file for the `quote-prestop` pod
 
 ### Setting the termination grace period
-- [kubia-ssl-shortgraceperiod.yaml](kubia-ssl-shortgraceperiod.yaml) - YAML manifest file for the `kubia-ssl-shortgraceperiod` pod
+- [kiada-ssl-shortgraceperiod.yaml](kiada-ssl-shortgraceperiod.yaml) - YAML manifest file for the `kiada-ssl-shortgraceperiod` pod
 
-### Handling the TERM signal in the kubia application
-Building the **`kubia:1.1`** image:
-- [Makefile](kubia-v1-1-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](kubia-v1-1-image/Dockerfile) - Docker instructions for building the image
-- [app.js](kubia-v1-1-image/app.js) - application code (JavaScript)
+### Handling the TERM signal in the Kiada application
+Building the **`kiada:1.1`** image:
+- [Makefile](kiada-0.3-image/Makefile) - contains commands to build and push the image
+- [Dockerfile](kiada-0.3-image/Dockerfile) - Docker instructions for building the image
+- [app.js](kiada-0.3-image/app.js) - application code (JavaScript)
 
 Deploying the pod:
-- [kubia-ssl-v1-1.yaml](kubia-ssl-v1-1.yaml) - Manifest for the `kubia-ssl-v1-1` pod
+- [kiada-ssl-v1-1.yaml](kiada-ssl-v1-1.yaml) - Manifest for the `kiada-ssl-v1-1` pod
 

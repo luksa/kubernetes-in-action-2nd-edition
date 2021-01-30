@@ -2,5 +2,5 @@
 
 set -x
 
-kubectl create deployment kubia --image=luksa/kubia:1.0
+kubectl create deployment kiada --image=luksa/kiada:0.1
 

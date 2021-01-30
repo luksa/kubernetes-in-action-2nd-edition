@@ -3,43 +3,43 @@
 ## Chapter 5. Running applications in Pods
 
 
-### Creating the pod manifest for the kubia application
-- [kubia.yaml](kubia.yaml) - YAML manifest file for the `kubia` pod
+### Creating the pod manifest for the Kiada application
+- [kiada.yaml](kiada.yaml) - YAML manifest file for the `kiada` pod
 
 ### Modifying the application to read from standard input
-Building the **`kubia:1.0-stdin`** image:
-- [Makefile](kubia-stdin-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](kubia-stdin-image/Dockerfile) - Docker instructions for building the image
-- [app.js](kubia-stdin-image/app.js) - application code (JavaScript)
+Building the **`kiada:1.0-stdin`** image:
+- [Makefile](kiada-stdin-image/Makefile) - contains commands to build and push the image
+- [Dockerfile](kiada-stdin-image/Dockerfile) - Docker instructions for building the image
+- [app.js](kiada-stdin-image/app.js) - application code (JavaScript)
 
 Deploying the pod:
-- [kubia-stdin.yaml](kubia-stdin.yaml) - manifest for the `kubia-stdin` pod
-- [kubia-stdin-once.yaml](kubia-stdin-once.yaml) - manifest for the `kubia-stdin-once` pod, which uses `stdinOnce: true`
-- [kubia-stdin-tty.yaml](kubia-stdin-tty.yaml) - manifest for the `kubia-stdin-tty` pod, which uses `tty: true`
+- [kiada-stdin.yaml](kiada-stdin.yaml) - manifest for the `kiada-stdin` pod
+- [kiada-stdin-once.yaml](kiada-stdin-once.yaml) - manifest for the `kiada-stdin-once` pod, which uses `stdinOnce: true`
+- [kiada-stdin-tty.yaml](kiada-stdin-tty.yaml) - manifest for the `kiada-stdin-tty` pod, which uses `tty: true`
 
-### Adding the Envoy proxy container to the kubia pod
-Building the **`kubia-ssl-proxy:1.0`** image:
-- [Makefile](kubia-ssl-proxy-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](kubia-ssl-proxy-image/Dockerfile) - Docker instructions for building the image
-- [envoy.yaml](kubia-ssl-proxy-image/envoy.yaml) - Envoy proxy configuration file
-- [example-com.crt](kubia-ssl-proxy-image/example-com.crt) - Server certificate used by Envoy
-- [example-com.key](kubia-ssl-proxy-image/example-com.key) - Private key used by Envoy
+### Adding the Envoy proxy container to the kiada pod
+Building the **`kiada-ssl-proxy:0.1`** image:
+- [Makefile](kiada-ssl-proxy-image/Makefile) - contains commands to build and push the image
+- [Dockerfile](kiada-ssl-proxy-image/Dockerfile) - Docker instructions for building the image
+- [envoy.yaml](kiada-ssl-proxy-image/envoy.yaml) - Envoy proxy configuration file
+- [example-com.crt](kiada-ssl-proxy-image/example-com.crt) - Server certificate used by Envoy
+- [example-com.key](kiada-ssl-proxy-image/example-com.key) - Private key used by Envoy
 
 Deploying the pod:
-- [kubia-ssl.yaml](kubia-ssl.yaml) - Manifest for the `kubia-ssl` pod
+- [kiada-ssl.yaml](kiada-ssl.yaml) - Manifest for the `kiada-ssl` pod
 
 
 ### Creating a pod with init containers
-Building the **`init-demo:1.0`** image:
-- [Makefile](init-demo-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](init-demo-image/Dockerfile) - Docker instructions for building the image
-- [docker_entrypoint.sh](init-demo-image/docker_entrypoint.sh) - Shell script that runs in the container
+Building the **`init-demo:0.1`** image:
+- [Makefile](init-demo-0.1/Makefile) - contains commands to build and push the image
+- [Dockerfile](init-demo-0.1/Dockerfile) - Docker instructions for building the image
+- [docker_entrypoint.sh](init-demo-0.1/docker_entrypoint.sh) - Shell script that runs in the container
 
-Building the **`network-connectivity-checker:1.0`** image:
-- [Makefile](network-connectivity-checker-image/Makefile) - contains commands to build and push the image
-- [Dockerfile](network-connectivity-checker-image/Dockerfile) - Docker instructions for building the image
-- [docker_entrypoint.sh](network-connectivity-checker-image/docker_entrypoint.sh) - Shell script that runs in the container
+Building the **`network-connectivity-checker:0.1`** image:
+- [Makefile](network-connectivity-checker-0.1/Makefile) - contains commands to build and push the image
+- [Dockerfile](network-connectivity-checker-0.1/Dockerfile) - Docker instructions for building the image
+- [docker_entrypoint.sh](network-connectivity-checker-0.1/docker_entrypoint.sh) - Shell script that runs in the container
 
 Deploying the pod:
-- [kubia-init.yaml](kubia-init.yaml) - Manifest for the `kubia-init` pod
-- [kubia-init-slow.yaml](kubia-init-slow.yaml) - Manifest for the `kubia-init-slow` pod, whose init container takes 60s to start
+- [kiada-init.yaml](kiada-init.yaml) - Manifest for the `kiada-init` pod
+- [kiada-init-slow.yaml](kiada-init-slow.yaml) - Manifest for the `kiada-init-slow` pod, whose init container takes 60s to start
