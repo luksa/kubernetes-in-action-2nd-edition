@@ -18,7 +18,7 @@ spec:
     - |
       echo "The files in the persistent volume and their contents:" ;
       grep ^ /other-data/* ;
-      sleep 9999
+      sleep infinity
     volumeMounts:
     - name: other-data
       mountPath: /other-data

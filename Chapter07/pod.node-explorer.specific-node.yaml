@@ -11,7 +11,7 @@ spec:
   containers:
   - name: node-explorer
     image: alpine
-    command: ["sleep", "9999999999"]
+    command: ["sleep", "infinity"]
     volumeMounts:
     - name: host-root
       mountPath: /host

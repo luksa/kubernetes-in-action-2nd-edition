@@ -17,7 +17,7 @@ spec:
     - |
       echo "A writer pod wrote this." > /other-data/${HOSTNAME} &&
       echo "I can write to /other-data/${HOSTNAME}." ;
-      sleep 9999
+      sleep infinity
     volumeMounts:
     - name: other-data
       mountPath: /other-data
