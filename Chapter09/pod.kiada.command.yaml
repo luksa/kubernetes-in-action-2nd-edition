@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.4
+    command: ["node", "--cpu-prof", "--heap-prof", "app.js"]
+#   Alternative notation:
+#     command:
+#     - node
+#     - --cpu-prof
+#     - --heap-prof
+#     - app.js
+    ports:
+    - name: http
+      containerPort: 8080
+
+

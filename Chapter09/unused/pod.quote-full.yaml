@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote
+spec:
+  volumes:
+  - name: content
+    emptyDir: {}
+  - name: quote
+    configMap:
+      name: quote-data
+      optional: false
+      defaultMode: 0644
+      items:
+      - key: book-quotes.txt
+        path: kiada
+      - key: book-quotes.txt.dat
+        path: kiada.dat
+        mode: 0444
+  containers:
+  - name: quote-writer
+    image: luksa/quote-writer:0.1
+    imagePullPolicy: Always
+    env:
+    - name: INTERVAL
+      valueFrom:
+        configMapKeyRef:
+          name: quote-config
+          key: interval
+          optional: true
+    - name: INPUT_FILE
+      value: /quotes/kiada
+    volumeMounts:
+    - name: content
+      mountPath: /var/local/output
+    - name: quotes
+      mountPath: /quotes
+  - name: nginx
+    image: nginx:alpine
+    volumeMounts:
+    - name: content
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - name: http
+      containerPort: 80

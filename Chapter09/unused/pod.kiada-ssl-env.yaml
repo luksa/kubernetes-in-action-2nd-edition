@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-ssl-env
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.1
+    env:
+    - name: NODE_DEBUG
+      value: "*"
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: envoy
+    image: luksa/kiada-ssl-proxy:0.1
+    ports:
+    - name: https
+      containerPort: 8443
+    - name: admin
+      containerPort: 9901

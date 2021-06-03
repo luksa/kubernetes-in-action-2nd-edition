@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-ssl
+spec:
+  volumes:
+  - name: envoy-config
+    configMap:
+      name: kiada-envoy-config
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.4
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: envoy
+    image: luksa/kiada-ssl-proxy:0.1
+    volumeMounts:
+    - name: envoy-config
+      mountPath: /etc/envoy
+      readOnly: true
+    ports:
+    - name: https
+      containerPort: 8443
+    - name: admin
+      containerPort: 9901
+
+

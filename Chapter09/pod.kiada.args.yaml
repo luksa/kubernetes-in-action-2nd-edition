@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.4
+    args: ["--listen-port", "9090"]
+#   Alternative notation:
+#     args:
+#     - --listen-port
+#     - "9090"
+    ports:
+    - name: http
+      containerPort: 9090
+
+

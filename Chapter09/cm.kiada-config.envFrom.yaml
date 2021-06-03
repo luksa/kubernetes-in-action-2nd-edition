@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiada-config
+data:
+  INITIAL_STATUS_MESSAGE: This status message is set in the kiada-config config map
+  ANOTHER_CONFIG_MAP_ENTRY: This is another entry in the kiada-config config map.
+  YET_ANOTHER_ENTRY: This is yet another entry.the

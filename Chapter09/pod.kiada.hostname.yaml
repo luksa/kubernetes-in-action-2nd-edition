@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-hostname
+spec:
+  hostname: custom-hostname
+  subdomain: custom-subdomain
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.4
+    ports:
+    - name: http
+      containerPort: 8080
+
+
