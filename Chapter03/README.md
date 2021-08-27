@@ -7,5 +7,5 @@
 - [kind-multi-node.yaml](kind-multi-node.yaml) - configuration file for kind
 
 ### Creating the Kiada Deployment and Service
-- [crete-deployment.sh](create-deployment.sh) - creates a Deployment object that runs the Kiada application 
+- [create-deployment.sh](create-deployment.sh) - creates a Deployment object that runs the Kiada application 
 - [expose-deployment.sh](expose-deployment.sh) - exposes the Kiada application to the world
