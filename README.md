@@ -30,6 +30,10 @@ The code archive is organized per chapter. You'll find a description of the file
 
 7\) [Mounting storage volumes into the Pod's containers](Chapter07/)
 
+8\) [Persisting application data with PersistentVolumes](Chapter08/)
+
+9\) [Configuring applications using ConfigMaps, Secrets, and the Downward API](Chapter09/)
+
 ... other chapters coming soon
 
 
