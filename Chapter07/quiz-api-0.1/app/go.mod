@@ -1,4 +1,4 @@
-module http: //github.com/luksa/kubernetes-in-action-2nd-edition/code/container-images/quiz-api-0.1
+module github.com/luksa/kubernetes-in-action-2nd-edition/code/container-images/quiz-api-0.1
 
 go 1.15
 
