@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -19,6 +20,18 @@ type HTTPServer struct {
 func NewHTTPServer(db Database) HTTPServer {
 	return HTTPServer{
 		db: db,
+	}
+}
+
+func (s *HTTPServer) handleRoot(res http.ResponseWriter, req *http.Request) {
+	hostname, err := os.Hostname()
+	if err != nil {
+		s.handleInternalError(res, err)
+	}
+	res.WriteHeader(http.StatusOK)
+	_, err = res.Write([]byte(fmt.Sprintf("This is the quiz service running in pod %s\n", hostname)))
+	if err != nil {
+		s.handleInternalError(res, err)
 	}
 }
 
@@ -138,6 +151,7 @@ func (s *HTTPServer) errorResponse(res http.ResponseWriter, statusCode int, err 
 
 func (s *HTTPServer) ListenAndServe(listenAddress string) {
 	router := mux.NewRouter()
+	router.Methods("GET").Path("/").HandlerFunc(s.handleRoot)
 	router.Methods("GET").Path("/questions/{questionID:[0-9]+|random}").HandlerFunc(s.handleGetQuestion)
 	router.Methods("POST").Path("/questions/{questionID:[0-9]+}/answers").HandlerFunc(s.handlePostAnswer)
 
