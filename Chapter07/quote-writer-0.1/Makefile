@@ -1,4 +1,3 @@
--include ../Makefile.overrides
 -include Makefile.overrides
 
 IMAGE ?= quote-writer:0.1

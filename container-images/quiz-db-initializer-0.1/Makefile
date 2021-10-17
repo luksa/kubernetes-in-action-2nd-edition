@@ -1,4 +1,3 @@
--include ../Makefile.overrides
 -include Makefile.overrides
 
 IMAGE ?= quiz-db-initializer:0.1

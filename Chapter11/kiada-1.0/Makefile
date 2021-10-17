@@ -1,4 +1,3 @@
--include ../Makefile.overrides
 -include Makefile.overrides
 
 IMAGE ?= kiada:1.0

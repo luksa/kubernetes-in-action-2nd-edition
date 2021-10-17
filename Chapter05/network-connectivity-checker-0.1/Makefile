@@ -1,4 +1,3 @@
--include ../Makefile.overrides
 -include Makefile.overrides
 
 IMAGE ?= network-connectivity-checker:0.1
