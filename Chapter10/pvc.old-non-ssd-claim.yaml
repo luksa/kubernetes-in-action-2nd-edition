@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: old-non-ssd-claim
+spec:
+  selector:
+    matchExpressions:
+    - key: type
+      operator: NotIn
+      values:
+      - ssd
+    - key: age
+      operator: In
+      values:
+      - old
+      - very-old
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  - ReadOnlyMany
+  storageClassName: ""

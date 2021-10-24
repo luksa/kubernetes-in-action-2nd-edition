@@ -1,0 +1,175 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ssd-new-1
+  labels:
+    type: ssd
+    age: new
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/ssd-new-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ssd-new-2
+  labels:
+    type: ssd
+    age: new
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/ssd-new-2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ssd-old-1
+  labels:
+    type: ssd
+    age: old
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/ssd-old-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ssd-old-2
+  labels:
+    type: ssd
+    age: old
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/ssd-old-2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-new-1
+  labels:
+    type: hdd
+    age: new
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-new-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-new-2
+  labels:
+    type: hdd
+    age: new
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-new-2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-old-1
+  labels:
+    type: hdd
+    age: old
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-old-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-old-2
+  labels:
+    type: hdd
+    age: old
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-old-2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-very-old-1
+  labels:
+    type: hdd
+    age: very-old
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-very-old-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdd-very-old-2
+  labels:
+    type: hdd
+    age: very-old
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/hdd-very-old-2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: no-type-old-1
+  labels:
+    age: old
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: /var/no-type-old-1
+
