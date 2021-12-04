@@ -34,7 +34,9 @@ The code archive is organized per chapter. You'll find a description of the file
 
 9\) [Configuring applications using ConfigMaps, Secrets, and the Downward API](Chapter09/)
 
-... other chapters coming soon
+10\) [Organizing objects using Namespaces, labels, and selectors](Chapter10/)
+
+11\) [Exposing pods with Services](Chapter11/)
 
 
 ## Contributing
