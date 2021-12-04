@@ -181,6 +181,8 @@ function handler(req, res) {
             return sendResponse(200, "application/json", "utf8", JSON.stringify(dummyAnswerResponse), res);
         case '/healthz/ready':
             return sendResponse(200, "text/plain", "utf8", "Ready", res)
+        default:
+            return sendResponse(404, "text/plain", "utf8", req.url + " not found", res)
     }
 }
 

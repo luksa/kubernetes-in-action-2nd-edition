@@ -83,6 +83,8 @@ function handler(req, res) {
             return sendFile(req, res, "html/favicon.ico", "image/x-icon");
         case '/cover.png':
             return sendFile(req, res, "html/cover.png", "image/png");
+        default:
+            return sendResponse(404, "text/plain", "utf8", req.url + " not found", res)
     }
 }
 
