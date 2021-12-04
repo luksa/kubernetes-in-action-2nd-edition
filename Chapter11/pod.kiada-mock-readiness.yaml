@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-mock-readiness
+  labels:
+    app: kiada
+spec:
+  volumes:
+  - name: etc-envoy
+    projected:
+      sources:
+      - configMap:
+          name: kiada-envoy-config
+      - secret:
+          name: kiada-tls
+          items:
+          - key: tls.crt
+            path: example-com.crt
+          - key: tls.key
+            path: example-com.key
+            mode: 0600
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.5
+    imagePullPolicy: Always
+    env:
+    - name: QUOTE_URL
+      value: http://quote/quote
+    - name: QUIZ_URL
+      value: http://quiz
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: NODE_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    ports:
+    - name: http
+      containerPort: 8080
+    readinessProbe:
+      exec:
+        command:
+        - ls
+        - /var/ready
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 3
+      successThreshold: 2
+      timeoutSeconds: 2
+  - name: envoy
+    image: envoyproxy/envoy:v1.14.1
+    volumeMounts:
+    - name: etc-envoy
+      mountPath: /etc/envoy
+      readOnly: true
+    ports:
+    - name: https
+      containerPort: 8443
+    - name: admin
+      containerPort: 9901

@@ -1,6 +1,6 @@
 -include Makefile.overrides
 
-IMAGE ?= kiada:1.0
+IMAGE ?= kiada:0.5
 FULL_IMAGE_TAG = "$(PREFIX)$(IMAGE)"
 
 all: image push

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service-headless
+spec:
+  clusterIP: None
+  ports:
+  - name: http
+    port: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-service-headless
+subsets:
+- addresses:
+  - ip: 1.1.1.1
+  - ip: 2.2.2.2
+  ports:
+  - name: http
+    port: 88

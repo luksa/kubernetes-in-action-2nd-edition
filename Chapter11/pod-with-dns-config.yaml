@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-dns-config
+spec:
+  dnsConfig:
+    nameservers:
+    - 1.1.1.1
+    options:
+    - name: custom-option
+      value: foo
+    searches:
+    - search1
+    - search2
+  containers:
+  - name: sleep
+    image: busybox
+    command:
+    - sleep
+    - infinity

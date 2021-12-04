@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: time-api
+spec:
+  type: ExternalName
+  externalName: worldtimeapi.org

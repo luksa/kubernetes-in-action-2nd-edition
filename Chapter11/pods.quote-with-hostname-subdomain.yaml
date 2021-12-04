@@ -1,0 +1,136 @@
+# nslookup quote1-hostname.quote-headless
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote1-with-hostname
+  labels:
+    app: quote
+    rel: stable
+spec:
+  hostname: quote1-hostname
+  subdomain: quote-headless
+  volumes:
+  - name: shared
+    emptyDir: {}
+  initContainers:
+  - name: index-creator
+    image: busybox
+    command:
+    - sh
+    - -c
+    - echo "This is the quote service running in pod $HOSTNAME on node $NODE_NAME" > /html/index.html
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    volumeMounts:
+    - name: shared
+      mountPath: /html
+  containers:
+  - name: quote-writer
+    image: luksa/quote-writer:0.1
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: shared
+      mountPath: /var/local/output
+  - name: nginx
+    image: nginx:alpine
+    volumeMounts:
+    - name: shared
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - name: http
+      containerPort: 80
+---
+# nslookup quote2-hostname.quote-headless
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote2-with-subdomain
+  labels:
+    app: quote
+    rel: stable
+spec:
+  subdomain: quote-headless
+  volumes:
+  - name: shared
+    emptyDir: {}
+  initContainers:
+  - name: index-creator
+    image: busybox
+    command:
+    - sh
+    - -c
+    - echo "This is the quote service running in pod $HOSTNAME on node $NODE_NAME" > /html/index.html
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    volumeMounts:
+    - name: shared
+      mountPath: /html
+  containers:
+  - name: quote-writer
+    image: luksa/quote-writer:0.1
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: shared
+      mountPath: /var/local/output
+  - name: nginx
+    image: nginx:alpine
+    volumeMounts:
+    - name: shared
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - name: http
+      containerPort: 80
+---
+# nslookup quote3-hostname.quote-headless
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote3-with-hostname-subdomain
+  labels:
+    app: quote
+    rel: stable
+spec:
+  hostname: quote3-hostname
+  subdomain: quote-headless
+  volumes:
+  - name: shared
+    emptyDir: {}
+  initContainers:
+  - name: index-creator
+    image: busybox
+    command:
+    - sh
+    - -c
+    - echo "This is the quote service running in pod $HOSTNAME on node $NODE_NAME" > /html/index.html
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    volumeMounts:
+    - name: shared
+      mountPath: /html
+  containers:
+  - name: quote-writer
+    image: luksa/quote-writer:0.1
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: shared
+      mountPath: /var/local/output
+  - name: nginx
+    image: nginx:alpine
+    volumeMounts:
+    - name: shared
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - name: http
+      containerPort: 80

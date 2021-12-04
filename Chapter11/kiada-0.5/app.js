@@ -13,10 +13,8 @@ const nodeName = process.env.NODE_NAME || "unknown-node";
 const nodeIP = process.env.NODE_IP || "0.0.0.0";
 const podIP = process.env.POD_IP || "0.0.0.0";
 
-const quoteURLExternal = process.env.QUOTE_URL_EXTERNAL || "dummy/quote";
-const quizURLExternal = process.env.QUIZ_URL_EXTERNAL || "dummy/quiz";
-const quoteURLInternal = process.env.QUOTE_URL_INTERNAL || ("localhost:" + listenPort + "/quote");
-const quizURLInternal = process.env.QUIZ_URL_INTERNAL || ("localhost:" + listenPort + "dummy/quiz");
+const quoteURL = process.env.QUOTE_URL || ("localhost:" + listenPort + "/quote");
+const quizURL = process.env.QUIZ_URL || ("localhost:" + listenPort + "dummy/quiz");
 
 let statusMessage = process.env.INITIAL_STATUS_MESSAGE || "";
 
@@ -45,13 +43,19 @@ function sendResponse(status, contentType, encoding, body, response) {
     response.end();
 }
 
+function sendJSONResponse(status, obj, response) {
+    response.writeHead(status, {'Content-Type': 'application/json'});
+    response.write(JSON.stringify(obj));
+    response.end();
+}
+
 function renderFile(req, res, path, contentType, replacements) {
     let template = fs.readFileSync(path, 'utf8');
 
     let map = Object.assign({
         "{{baseURL}}": "",         // TODO
-        "{{quoteURL}}": quoteURLExternal,
-        "{{quizURL}}": quizURLExternal,
+        "{{quoteURL}}": "fetchQuote",
+        "{{quizURL}}": "fetchQuiz",
         "{{podName}}": podName,
         "{{nodeName}}": nodeName,
         "{{podIP}}": podIP,
@@ -117,7 +121,7 @@ function isGraphicalWebBrowser(req) {
 
 function handler(req, res) {
     let clientIP = req.connection.remoteAddress;
-    console.log("Received request for " + req.url + " from " + clientIP);
+    log("Received request for " + req.url + " from " + clientIP);
     switch (req.url) {
         case '/':
             if (isGraphicalWebBrowser(req)) {
@@ -129,8 +133,8 @@ function handler(req, res) {
         // text-based clients fall through to the '/text' case
         case '/text':
             Promise.allSettled([
-                doHttpGet(quoteURLInternal),
-                doHttpGet(quizURLInternal + "/questions/random")
+                doHttpGet(quoteURL),
+                doHttpGet(quizURL + "/questions/random")
             ]).then(results => {
                 let quote = results[0].status === "fulfilled"
                     ? results[0].value
@@ -157,34 +161,50 @@ function handler(req, res) {
             return sendFile(req, res, "html/favicon.ico", "image/x-icon");
         case '/cover.png':
             return sendFile(req, res, "html/cover.png", "image/png");
+        case '/fetchQuote':
+            doHttpGet(quoteURL).then(quote => {
+                sendJSONResponse(200, quote, res);
+            });
+            break;
+        case '/fetchQuiz/questions/random':
+            doHttpGet(quizURL + "/questions/random").then(questionJSON => {
+                let question = JSON.parse(questionJSON);
+                sendJSONResponse(200, question, res);
+            });
+            break;
+
         case '/dummy/quote':
             return sendResponse(200, "text/plain", "utf8", dummyQuote, res);
         case '/dummy/quiz/questions/random':
             return sendResponse(200, "application/json", "utf8", JSON.stringify(dummyQuestion), res);
         case '/dummy/quiz/questions/0/answers':
             return sendResponse(200, "application/json", "utf8", JSON.stringify(dummyAnswerResponse), res);
+        case '/healthz/ready':
+            return sendResponse(200, "text/plain", "utf8", "Ready", res)
     }
 }
 
+function log(msg) {
+    console.log(new Date().toISOString() + " " + msg);
+}
+
 if (args.length === 1 && args[0] === "--help") {
-    console.log("Usage: " + process.argv[0] + " " + process.argv[1] + " [--listen-port <number>]");
+    log("Usage: " + process.argv[0] + " " + process.argv[1] + " [--listen-port <number>]");
     return;
 }
 
-console.log("Kiada - Kubernetes in Action Demo Application");
-console.log("---------------------------------------------");
-console.log("Kiada " + version + " starting...");
-console.log("Pod name is " + podName);
-console.log("Local hostname is " + os.hostname());
-console.log("Local IP is " + podIP);
-console.log("Running on node " + nodeName);
-console.log("Node IP is " + nodeIP);
-console.log("Status message is " + statusMessage);
-console.log("Internal URL of the quote service is " + quoteURLInternal);
-console.log("External URL of the quote service is " + quoteURLExternal);
-console.log("Internal URL of the quiz service is " + quizURLInternal);
-console.log("External URL of the quiz service is " + quizURLExternal);
-console.log("Listening on port " + listenPort);
+log("Kiada - Kubernetes in Action Demo Application");
+log("---------------------------------------------");
+log("Kiada " + version + " starting...");
+log("Pod name is " + podName);
+log("Local hostname is " + os.hostname());
+log("Local IP is " + podIP);
+log("Running on node " + nodeName);
+log("Node IP is " + nodeIP);
+log("Status message is " + statusMessage);
+log("URL of the quote service is " + quoteURL);
+log("URL of the quiz service is " + quizURL);
+log("Listening on port " + listenPort);
 
 let server = http.createServer(handler);
 server.listen(listenPort);
@@ -200,12 +220,12 @@ rl.on('line', function (line) {
         console.error("Enter new status message and press ENTER.");
     } else {
         statusMessage = line;
-        console.log("Status message set to: " + line);
+        log("Status message set to: " + line);
     }
 });
 
 process.on('SIGTERM', function () {
-    console.log("Received SIGTERM. Server shutting down...");
+    log("Received SIGTERM. Server shutting down...");
     server.close(function () {
         process.exit(0);
     });
