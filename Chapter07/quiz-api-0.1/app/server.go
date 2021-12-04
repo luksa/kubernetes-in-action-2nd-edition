@@ -35,6 +35,21 @@ func (s *HTTPServer) handleRoot(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func (s *HTTPServer) handleReadiness(res http.ResponseWriter, req *http.Request) {
+	conn, err := s.db.Connect()
+	if err != nil {
+		s.handleInternalError(res, err)
+		return
+	}
+	defer conn.Close()
+
+	res.WriteHeader(http.StatusOK)
+	_, err = res.Write([]byte("Readiness check successful"))
+	if err != nil {
+		s.handleInternalError(res, err)
+	}
+}
+
 func (s *HTTPServer) handleGetQuestion(res http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	id := params["questionID"]
@@ -152,6 +167,7 @@ func (s *HTTPServer) errorResponse(res http.ResponseWriter, statusCode int, err 
 func (s *HTTPServer) ListenAndServe(listenAddress string) {
 	router := mux.NewRouter()
 	router.Methods("GET").Path("/").HandlerFunc(s.handleRoot)
+	router.Methods("GET").Path("/healthz/ready").HandlerFunc(s.handleReadiness)
 	router.Methods("GET").Path("/questions/{questionID:[0-9]+|random}").HandlerFunc(s.handleGetQuestion)
 	router.Methods("POST").Path("/questions/{questionID:[0-9]+}/answers").HandlerFunc(s.handlePostAnswer)
 
