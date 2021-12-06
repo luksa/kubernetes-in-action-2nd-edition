@@ -7,7 +7,7 @@
 Submit your answer to {{baseURL}}/question/{{quizQuestionId}}/answers/<index of answer> using the POST method.
 
 ==== REQUEST INFO
-Request processed by Kubia 1.0 running in pod "{{podName}}" on node "{{nodeName}}".
+Request processed by Kiada 0.5 running in pod "{{podName}}" on node "{{nodeName}}".
 Pod hostname: {{hostname}}; Pod IP: {{podIP}}; Node IP: {{nodeIP}}; Client IP: {{clientIP}}
 {{statusMessage}}
 
