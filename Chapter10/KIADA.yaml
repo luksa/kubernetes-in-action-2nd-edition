@@ -62,7 +62,7 @@ binaryData:
 data:
   envoy.yaml: |
     admin:
-      access_log_path: /var/log/envoy.admin.log
+      access_log_path: /tmp/envoy.admin.log
       address:
         socket_address:
           protocol: TCP
