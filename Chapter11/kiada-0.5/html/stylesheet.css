@@ -28,8 +28,6 @@ body {
 
 .bubble {
     background-color: white;
-    /*border: solid black 1px;*/
-    border-radius: 20px;
     padding: 30px;
     margin-bottom: 20px;
     box-shadow: 10px 10px 20px 0px #333333;
@@ -117,27 +115,6 @@ input[type=button]:hover:not([disabled]),input[type=button]:focus {
     border: solid #cccccc 1px;
     cursor: pointer;
     outline: 0;
-}
-
-#links {
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-#links,a:link,a:visited,a:hover,a:active {
-    color: #cccccc;
-}
-
-#links a:hover {
-    color: white;
-}
-
-#links ul {
-    list-style-type: circle;
-}
-
-#links li {
-    margin: .3em 0;
 }
 
 #request-info {
