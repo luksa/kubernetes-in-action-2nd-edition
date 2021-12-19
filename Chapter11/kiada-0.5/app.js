@@ -3,7 +3,7 @@ const os = require('os');
 const fs = require('fs');
 const readline = require('readline');
 
-const version = "1.0";
+const version = "0.5";
 
 const args = process.argv.slice(2); // skip first two arguments, which are ["node", "app.js"]
 
