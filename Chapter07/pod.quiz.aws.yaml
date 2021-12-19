@@ -6,7 +6,7 @@ spec:
   volumes:
   - name: quiz-data
     awsElasticBlockStore:
-      volumeId: quiz-data
+      volumeID: quiz-data
       fsType: ext4
   containers:
   - name: quiz-api
