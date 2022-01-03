@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: kiada-envoy-config
+  labels:
+    app: kiada
+binaryData:
+  dummy.bin: n2VW39IEkyQ6Jxo+rdo5J06Vi7cz5XxZzkPOtN7MOGyXxVzWv07vUz8bxY5h4njJfZixwhPwoGepLnGZdRGw1qgpFB9HpyLsqVZ6jAwjjHD0afxxwEjb6+wofmgGmS1E3U9BZScMPZGWJK7RGzZmQOeJeDPIt/1tBvQYwzMc8wu6owky4Ri3rOY9PlFnp5VOTzvBZadW8scbqtntJeWCtJFoS0AH2y4ZFyJPJ0l0V3JpY1qunnz60CyAMO9v1DgB2PUQUG/1HH89bpzf2OyMvHUJmOTIDZOh3D7aAEuYQ/6hU0uQsQ/K7Xx/nM9TA0RzEzuh8RBoXdkAvQPP5jk7yM2DqxG/CiHVp+7CDRFWgEN2GFd76RfO+pIoOFbD1Xm4yE/JBljOA9ztwm865m3A4l2ToT2p7ZWHKmdZe8pXz4ZwIGBYDUHHNVQW5UUnf0Jbd9UR8GJ//gmbxLfVxjC/lMSWGUqCpYO4YdBPjXQGM1xdxE+YP3Pzso6Z4rw27RJu5KEc2yPMxFY9dpFyVufP81kS19glNiQq+LM4B9EFPrNW1hqi+1Tb8ni+aFkriH1YuvHepIH0Px/ifFLgn+yDgwDs4UfMru2j4t5zAftUa0i6m3sH5adKcx4aCXYN9ijvEvjRmkcB/VJU6Zbd65UZVgD1Nwt2ZCrkoEdqO3Oe1/o=
+data:
+  envoy.yaml: |
+    admin:
+      access_log_path: /tmp/envoy.admin.log
+      address:
+        socket_address:
+          protocol: TCP
+          address: 0.0.0.0
+          port_value: 9901
+    static_resources:
+      listeners:
+      - name: listener_0
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 8443
+        filter_chains:
+        - transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                - certificate_chain:
+                    filename: "/etc/envoy/example-com.crt"
+                  private_key:
+                    filename: "/etc/envoy/example-com.key"
+          filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+              stat_prefix: ingress_http
+              route_config:
+                name: local_route
+                virtual_hosts:
+                - name: local_service
+                  domains: ["*"]
+                  routes:
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: service_kiada_localhost
+              http_filters:
+              - name: envoy.filters.http.router
+      clusters:
+      - name: service_kiada_localhost
+        connect_timeout: 0.25s
+        type: STATIC
+        load_assignment:
+          cluster_name: service_kiada_localhost
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 127.0.0.1
+                    port_value: 8080

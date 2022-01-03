@@ -40,6 +40,8 @@ The code archive is organized per chapter. You'll find a description of the file
 
 12\) [Exposing services externally using Ingresses](Chapter12/)
 
+13\) [Deploying applications using Deployments and ReplicaSets](Chapter13/)
+
 
 ## Contributing
 

@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kiada
+  labels:
+    app: kiada
+    rel: stable
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kiada
+      rel: stable
+  template:
+    metadata:
+      labels:
+        app: kiada
+        rel: stable
+        ver: '0.5'
+    spec:
+      containers:
+      - name: kiada
+        image: luksa/kiada:0.5
+        imagePullPolicy: Always
+        env:
+        - name: QUOTE_URL
+          value: http://quote/quote
+        - name: QUIZ_URL
+          value: http://quiz
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /healthz/ready
+            scheme: HTTP
+      - name: envoy
+        image: envoyproxy/envoy:v1.14.1
+        volumeMounts:
+        - name: etc-envoy
+          mountPath: /etc/envoy
+          readOnly: true
+        ports:
+        - name: https
+          containerPort: 8443
+        - name: admin
+          containerPort: 9901
+        readinessProbe:
+          httpGet:
+            port: admin
+            path: /ready
+      volumes:
+      - name: etc-envoy
+        projected:
+          sources:
+          - configMap:
+              name: kiada-envoy-config
+          - secret:
+              name: kiada-tls
+              items:
+              - key: tls.crt
+                path: example-com.crt
+              - key: tls.key
+                path: example-com.key
+                mode: 0600
