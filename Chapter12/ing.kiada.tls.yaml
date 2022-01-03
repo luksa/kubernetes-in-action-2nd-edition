@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiada
+spec:
+  tls:
+  - secretName: tls-example-com
+    hosts:
+    - "*.example.com"
+  defaultBackend:
+    service:
+      name: fun404
+      port:
+        name: http
+  rules:
+  - host: kiada.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kiada
+            port:
+              name: http
+  - host: api.example.com
+    http:
+      paths:
+      - path: /quote
+        pathType: Exact
+        backend:
+          service:
+            name: quote
+            port:
+              name: http
+      - path: /questions
+        pathType: Prefix
+        backend:
+          service:
+            name: quiz
+            port:
+              name: http

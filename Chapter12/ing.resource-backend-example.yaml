@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: resource-backend-example
+spec:
+  rules:
+  - host: resource-backend-example
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          resource:
+            apiGroup: citrix.com
+            kind: HTTPRoute
+            name: example-http-route

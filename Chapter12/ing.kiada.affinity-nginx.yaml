@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiada
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-name: SESSION_COOKIE
+spec:
+  rules:
+  - host: kiada.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kiada
+            port:
+              name: http
+  - host: api.example.com
+    http:
+      paths:
+      - path: /quote
+        pathType: Exact
+        backend:
+          service:
+            name: quote
+            port:
+              name: http
+      - path: /questions
+        pathType: Prefix
+        backend:
+          service:
+            name: quiz
+            port:
+              name: http

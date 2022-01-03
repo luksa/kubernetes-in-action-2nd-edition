@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fun404
+  labels:
+    app: fun404
+spec:
+  containers:
+  - name: server
+    image: luksa/static-http-server:0.1
+    imagePullPolicy: Always
+    args:
+    - --listen-address=:8080
+    - --response-code=404
+    - --response-text=This isn't the URL you're looking for.
+    ports:
+    - name: http
+      containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fun404
+  labels:
+    app: fun404
+spec:
+  selector:
+    app: fun404
+  ports:
+  - name: http
+    port: 80
+    targetPort: http

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiada-example-com
+spec:
+  rules:
+  - host: kiada.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kiada
+            port:
+              number: 80    # could also use "name: http" instead of "number: 80"

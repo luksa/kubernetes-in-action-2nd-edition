@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-example-com
+spec:
+  rules:
+  - host: api.example.com
+    http:
+      paths:
+      - path: /quote
+        pathType: Exact
+        backend:
+          service:
+            name: quote
+            port:
+              name: http
+      - path: /questions
+        pathType: Prefix
+        backend:
+          service:
+            name: quiz
+            port:
+              name: http

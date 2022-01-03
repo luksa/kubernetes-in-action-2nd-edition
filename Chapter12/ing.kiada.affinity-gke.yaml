@@ -1,0 +1,63 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiada
+  annotations:
+    cloud.google.com/backend-config: '{"default": "kiada-backend-config"}'
+spec:
+  rules:
+  - host: kiada.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kiada
+            port:
+              name: http
+  - host: api.example.com
+    http:
+      paths:
+      - path: /quote
+        pathType: Exact
+        backend:
+          service:
+            name: quote
+            port:
+              name: http
+      - path: /questions
+        pathType: Prefix
+        backend:
+          service:
+            name: quiz
+            port:
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kiada
+  annotations:
+    cloud.google.com/backend-config: '{"default": "kiada-backend-config"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: kiada
+  ports:
+  - name: http
+    port: 80
+    nodePort: 30080
+    targetPort: 8080
+  - name: https
+    port: 443
+    nodePort: 30443
+    targetPort: 8443
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: kiada-backend-config
+spec:
+  sessionAffinity:
+    affinityType: GENERATED_COOKIE
