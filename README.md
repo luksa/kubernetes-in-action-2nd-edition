@@ -5,7 +5,7 @@ This repository contains all the code (and some additional files) from the [Kube
 ## Purchasing the book
 
 The book hasn't been published yet, but is available through the Manning early-access program.
-You can take a [quick look online](https://livebook.manning.com/book/kubernetes-in-action-second-edition/chapter-1/?a_aid=kubiaML) or purchase the book at http://kubernetes-in-action.com/second-edition. 
+You can take a [quick look online](https://livebook.manning.com/book/kubernetes-in-action-second-edition/chapter-1/?a_aid=kubiaML) or purchase the book at http://kubernetes-in-action.com/second-edition. Use code **au35luk** to get a 35% discount.
 
 
 ## Exploring the code archive
