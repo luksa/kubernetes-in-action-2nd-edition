@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: quote
 spec:
+  type: ClusterIP
   selector:
     app: quote
   ports:
