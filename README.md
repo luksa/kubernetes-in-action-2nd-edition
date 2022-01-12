@@ -38,6 +38,8 @@ The code archive is organized per chapter. You'll find a description of the file
 
 11\) [Exposing pods with Services](Chapter11/)
 
+12\) [Exposing services externally using Ingresses](Chapter12/)
+
 
 ## Contributing
 
