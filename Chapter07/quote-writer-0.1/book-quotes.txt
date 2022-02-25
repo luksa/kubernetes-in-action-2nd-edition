@@ -8,13 +8,13 @@ Entering a running container like this is useful when debugging an app running i
 %
 If you use Linux, you can reduce the resources required by Minikube by creating the cluster without a VM. Use this command: `minikube start --vm-driver none`.
 %
-If you want to list containers using your local docker CLI instance, as in the case of Docker Desktop, run the following command: eval $(minikube docker-env)
+If you want to list containers using your local docker CLI instance, as in the case of Docker Desktop, run the following command: `eval $(minikube docker-env)`.
 %
 Each VM incurs costs. To reduce the cost of your cluster, you can reduce the number of nodes to one, or even to zero while not using it. See next section for details.
 %
 You can always append `--help` to any `kubectl` command to get more information.
 %
-Executing the describe command without specifying the object name is useful when only one object of a certain type exists. You don’t have to type or copy/paste the object name.
+Executing the `kubectl describe` command without specifying the object name is useful when only one object of a certain type exists. You don’t have to type or copy/paste the object name.
 %
 If you want to see the complete structure of an object (the complete hierarchical list of fields without the descriptions), try `kubectl explain pods --recursive`.
 %
@@ -94,7 +94,7 @@ If you’re unable to access the service via the node ports, check if you can do
 %
 If you’re using Minikube, you can easily access your NodePort services through your browser by running minikube service <service-name> [-n <namespace>].
 %
-To list all services and the ports they expose in the kiada namespace, you can run the command nslookup -query=SRV any.kiada.svc.cluster.local. To list all services in the cluster, use  the name any.any.svc.cluster.local.
+To list all services and the ports they expose in the `kiada` namespace, you can run the command `nslookup -query=SRV any.kiada.svc.cluster.local`. To list all services in the cluster, use the name `any.any.svc.cluster.local`.
 %
 If you want to manually control whether or not a pod is included in a service, add a label key such as `enabled` to the pod and set its value to `true`. Then add the label selector `enabled=true` to your service. Remove the label from the pod to remove the pod from the service.
 %
