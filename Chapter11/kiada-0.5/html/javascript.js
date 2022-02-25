@@ -51,7 +51,7 @@ function pageInit() {
     answerHTMLTemplate = document.getElementById('answers').innerHTML;
 
     httpGet(quoteURL, function (quote) {
-        document.getElementById('quote-text').innerText = JSON.parse(quote);
+        document.getElementById('quote-text').innerHTML = JSON.parse(quote).replace(/`(.*?)`/g, "<code>$1</code>");
     });
 
     showNextQuestion();

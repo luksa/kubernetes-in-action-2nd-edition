@@ -45,7 +45,16 @@ body {
 }
 
 #quote-text {
+    line-height: 1.5em;
+}
 
+#quote-text code {
+    font-family: Mono, monospace;
+    padding: 0.2em 0.4em;
+    margin: 0 0.2em;
+    font-size: 85%;
+    background-color: rgba(128,128,128,0.2);
+    border-radius: 4px;
 }
 
 #quiz {
