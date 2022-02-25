@@ -3,7 +3,10 @@
 IMAGE ?= quote-writer:0.1
 FULL_IMAGE_TAG = "$(PREFIX)$(IMAGE)"
 
-all: image push
+all: dat image push
+
+dat:
+	strfile book-quotes.txt book-quotes.txt.dat
 
 image:
 	@echo "Building image $(FULL_IMAGE_TAG)"
