@@ -38,4 +38,3 @@ spec:
     - name: initdb
       mountPath: /docker-entrypoint-initdb.d/
       readOnly: true
-

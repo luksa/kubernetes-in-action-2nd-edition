@@ -46,4 +46,3 @@ spec:
         port: 80
         path: /quote
         scheme: HTTP
-
