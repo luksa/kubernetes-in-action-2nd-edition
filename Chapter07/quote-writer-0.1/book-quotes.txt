@@ -48,7 +48,7 @@ If successful completion of the pre-stop hook is critical to the proper operatio
 %
 If the imagePullPolicy is set to Always and the image registry is offline, the container will not run even if the same image is already stored locally. A registry that is unavailable may therefore prevent your application from (re)starting.
 %
-Containers don’t necessarily start at the same moment. If pulling the image takes time, the container may start long after all the others have already started. Consider this if a containers depends on others.
+Containers don’t necessarily start at the same moment. If pulling the image takes time, the container may start long after all the others have already started. Consider this if a container depends on others.
 %
 A reduction of the termination grace period is rarely necessary. However, it is advisable to extend it if the application usually needs more time to shut down gracefully.
 %
