@@ -94,12 +94,8 @@ function showNextQuestion() {
             answersNode.appendChild(htmlToElement(html));
         }
 
-        document.getElementById('next-button').style.display = "none";
+        document.getElementById('next-button').style.visibility = "hidden";
     });
-}
-
-function answerSelected() {
-    document.getElementById("submit-button").disabled = false;
 }
 
 function submitAnswer() {
@@ -115,15 +111,12 @@ function submitAnswer() {
         function (responseJSON) {
             let response = JSON.parse(responseJSON);
             document.getElementById("answer-" + response.correctAnswerIndex + "-li").className = "correct-answer";
-            document.getElementById("answer-" + response.correctAnswerIndex + "-li").appendChild(htmlToElement("&nbsp;&#10004;"));
             // document.getElementById("answer-" + response.correctAnswerIndex + "-li").appendChild(htmlToElement("&nbsp;&#9989;"));
             if (answerIndex !== response.correctAnswerIndex) {
                 document.getElementById("answer-" + answerIndex + "-li").className = "incorrect-answer";
-                document.getElementById("answer-" + answerIndex + "-li").appendChild(htmlToElement("&nbsp;&#10008;"));
             }
 
-            document.getElementById('submit-button').disabled = "disabled";
-            document.getElementById('next-button').style.display = "";
+            document.getElementById('next-button').style.visibility = "";
             for (let i = 0; i < document.forms.quiz.answer.length; i++) {
                 document.forms.quiz.answer[i].disabled = "disabled";
             }

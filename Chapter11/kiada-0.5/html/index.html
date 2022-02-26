@@ -28,9 +28,8 @@
             <form name="quiz">
                 <input type="hidden" name="questionId" id="questionId">
                 <ul id="answers">
-                    <li id="answer-{index}-li"><input type="radio" name="answer" id="answer-{index}" value="{index}" onchange="answerSelected()"><label for="answer-{index}">{text}</label></li>
+                    <li id="answer-{index}-li"><input type="radio" name="answer" id="answer-{index}" value="{index}" onchange="submitAnswer()"><label for="answer-{index}">{text}</label></li>
                 </ul>
-                <input type="button" id="submit-button" value="Submit answer" disabled="disabled" onclick="submitAnswer()">
                 <input type="button" id="next-button" value="Next question &#128898;" onclick="showNextQuestion()">
             </form>
         </div>

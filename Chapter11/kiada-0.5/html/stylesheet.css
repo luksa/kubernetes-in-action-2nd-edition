@@ -66,37 +66,67 @@ code {
     font-weight: bold;
 }
 
-#answers {
+ul#answers {
     list-style-type: none;
-    padding-left: 1em;
+    padding-left: 0;
 }
 
-#answers li {
-    padding: .5em 0;
+ul#answers li {
+    padding: 0.15em 0 0 0.4em;
+    border: solid transparent 2px;
+}
+ul#answers li input[type=radio]:before {
+    line-height: 1.3em;
+    content: '\2610'
+}
+ul#answers li input[type=radio]:disabled {
+    color: #cccccc;
+}
+ul#answers li input[type=radio] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 2em;
+    cursor: pointer;
+    margin: 0;
+}
+ul#answers li label {
+    padding-left: .5em;
+    cursor: pointer;
+    position: relative;
+    top: -0.3em;
+}
+ul#answers li input:disabled+label {
+    color: #cccccc;
 }
 
-#answers li.correct-answer {
+ul#answers li.correct-answer {
+    color: #689654;
+    border: solid #689654 2px;
+    border-radius: 10px;
+}
+ul#answers li.correct-answer input[type=radio]:before {
+    content: '\1f5f9'
+}
+ul#answers li.correct-answer input[type=radio] {
     color: #689654;
 }
-#answers li.correct-answer input:disabled+label {
-    text-decoration-line: underline;
-    font-weight: bold;
-    color: #689654;
+ul#answers li.correct-answer input:disabled+label {
+    color: black;
 }
 
-#answers li.incorrect-answer {
+ul#answers li.incorrect-answer {
     color: #b73829;
 }
-#answers li.incorrect-answer input:disabled+label {
+ul#answers li.incorrect-answer input[type=radio] {
+    color: #b73829;
+}
+ul#answers li.incorrect-answer input[type=radio]:before {
+    content: '\1f5f7'
+}
+ul#answers li.incorrect-answer input:disabled+label {
     text-decoration-line: line-through;
     color: #b73829;
-}
-
-#answers li label {
-    padding-left: .5em;
-}
-#answers li input:disabled+label {
-    color: #cccccc;
 }
 
 input[type=button] {
