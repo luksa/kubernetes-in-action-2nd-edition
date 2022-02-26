@@ -48,7 +48,7 @@ body {
     line-height: 1.5em;
 }
 
-#quote-text code {
+code {
     font-family: Mono, monospace;
     padding: 0.2em 0.4em;
     margin: 0 0.2em;

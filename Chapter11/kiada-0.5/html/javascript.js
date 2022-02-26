@@ -84,13 +84,13 @@ function showNextQuestion() {
     httpGet(quizURL + "/questions/random", function (questionJSON) {
         let question = JSON.parse(questionJSON);
 
-        document.getElementById('question').innerText = question.text;
+        document.getElementById('question').innerHTML = toHTML(question.text);
         document.getElementById('questionId').value = question.id;
 
         answersNode = document.getElementById('answers');
         answersNode.innerHTML = "";
         for (let i = 0; i < question.answers.length; i++) {
-            let html = renderAnswerHTML(i, question.answers[i]);
+            let html = renderAnswerHTML(i, toHTML(question.answers[i]));
             answersNode.appendChild(htmlToElement(html));
         }
 
