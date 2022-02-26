@@ -92,7 +92,7 @@ Make sure you enclose the annotation value in quotes if the YAML parser would ot
 %
 If you’re unable to access the service via the node ports, check if you can do so via its internal cluster IP from within the cluster, as described previously.
 %
-If you’re using Minikube, you can easily access your NodePort services through your browser by running minikube service <service-name> [-n <namespace>].
+If you’re using Minikube, you can easily access your NodePort services through your browser by running `minikube service <service-name> [-n <namespace>]`.
 %
 To list all services and the ports they expose in the `kiada` namespace, you can run the command `nslookup -query=SRV any.kiada.svc.cluster.local`. To list all services in the cluster, use the name `any.any.svc.cluster.local`.
 %
