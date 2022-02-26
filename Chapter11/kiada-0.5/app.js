@@ -54,8 +54,8 @@ function renderFile(req, res, path, contentType, replacements) {
 
     let map = Object.assign({
         "{{baseURL}}": "",         // TODO
-        "{{quoteURL}}": "fetchQuote",
-        "{{quizURL}}": "fetchQuiz",
+        "{{quoteURL}}": "proxy/quote",
+        "{{quizURL}}": "proxy/quiz",
         "{{podName}}": podName,
         "{{nodeName}}": nodeName,
         "{{podIP}}": podIP,
@@ -98,6 +98,32 @@ function doHttpGet(url) {
     });
 }
 
+function doHttpPost(url, contentType, body) {
+    return new Promise((resolve, reject) => {
+        let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": contentType,
+                "Content-Length": body.length,
+            },
+        };
+        let request = http.request(url, options, function (res) {
+            let data = '';
+            res.on('data', function (chunk) {
+                data += chunk;
+            });
+            res.on('end', function () {
+                resolve(data);
+            });
+        });
+        request.on('error', function (e) {
+            reject(e.message);
+        });
+        request.write(body);
+        request.end();
+    });
+}
+
 function formatAnswers(question) {
     if (!question || !question.answers) {
         return "";
@@ -122,6 +148,36 @@ function isGraphicalWebBrowser(req) {
 function handler(req, res) {
     let clientIP = req.connection.remoteAddress;
     log("Received request for " + req.url + " from " + clientIP);
+
+    if (req.url.startsWith("/proxy/quote")) {
+        doHttpGet(quoteURL).then(quote => {
+            sendJSONResponse(200, quote, res);
+        });
+        return;
+    } else if (req.url.startsWith("/proxy/quiz")) {
+        let backendPath = req.url.replace("/proxy/quiz", "");
+        if (req.method === "GET") {
+            doHttpGet(quizURL + backendPath).then(questionJSON => {
+                let question = JSON.parse(questionJSON);
+                sendJSONResponse(200, question, res);
+            });
+        } else if (req.method === "POST") {
+            let body = "";
+            req.on("data", chunk => {
+                body += chunk;
+            });
+            req.on("end", () => {
+                let requestContentType = req.headers["content-type"];
+                doHttpPost(quizURL + backendPath, requestContentType, body).then(responseBody => {
+                    sendResponse(200, "application/json", "utf8", responseBody, res);
+                });
+            });
+        } else {
+            sendResponse(405, "text/plain", "only GET and POST are supported");
+        }
+        return;
+    }
+
     switch (req.url) {
         case '/':
             if (isGraphicalWebBrowser(req)) {
@@ -161,18 +217,6 @@ function handler(req, res) {
             return sendFile(req, res, "html/favicon.ico", "image/x-icon");
         case '/cover.png':
             return sendFile(req, res, "html/cover.png", "image/png");
-        case '/fetchQuote':
-            doHttpGet(quoteURL).then(quote => {
-                sendJSONResponse(200, quote, res);
-            });
-            break;
-        case '/fetchQuiz/questions/random':
-            doHttpGet(quizURL + "/questions/random").then(questionJSON => {
-                let question = JSON.parse(questionJSON);
-                sendJSONResponse(200, question, res);
-            });
-            break;
-
         case '/dummy/quote':
             return sendResponse(200, "text/plain", "utf8", dummyQuote, res);
         case '/dummy/quiz/questions/random':
