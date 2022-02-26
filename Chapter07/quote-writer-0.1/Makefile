@@ -3,9 +3,9 @@
 IMAGE ?= quote-writer:0.1
 FULL_IMAGE_TAG = "$(PREFIX)$(IMAGE)"
 
-all: dat image push
+all: gen image push
 
-dat:
+gen:
 	strfile book-quotes.txt book-quotes.txt.dat
 
 image:
