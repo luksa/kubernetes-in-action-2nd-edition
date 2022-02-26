@@ -80,7 +80,7 @@ Since entries in a secret are always represented as Base64-encoded values, worki
 %
 Instead of injecting secrets into environment variables, project them into the container as files in a secret volume. This reduces the likelihood that the secrets will be inadvertently exposed to attackers.
 %
-You can use `-n` instead of ``--namespace` to specify the namespace in `kubectl` commands.
+You can use `-n` instead of `--namespace` to specify the namespace in `kubectl` commands.
 %
 You can type `-A` instead of `-all-namespaces`.
 %
