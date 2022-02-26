@@ -54,6 +54,7 @@ body {
     margin: 0 0.2em;
     font-size: 85%;
     background-color: rgba(128,128,128,0.2);
+    border: solid #999999 1px;
     border-radius: 4px;
 }
 
