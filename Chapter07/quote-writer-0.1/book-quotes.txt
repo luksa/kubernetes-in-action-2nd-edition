@@ -82,7 +82,7 @@ Instead of injecting secrets into environment variables, project them into the c
 %
 You can use `-n` instead of `--namespace` to specify the namespace in `kubectl` commands.
 %
-You can type `-A` instead of `-all-namespaces`.
+You can use `-A` instead of `--all-namespaces` when you want to list objects or perform an action across all namespaces.
 %
 The names of most objects must conform to the naming conventions for DNS subdomain names, as specified in RFC 1123, that is, they may contain only lowercase alphanumeric characters, hyphens, and dots, and must start and end with an alphanumeric character. The same applies to namespaces, but they may not contain dots.
 %
