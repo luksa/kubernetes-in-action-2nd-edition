@@ -39,6 +39,13 @@ function htmlToElement(html) {
 let answerHTMLTemplate;
 let errorPopupTemplate;
 
+function toHTML(quote) {
+    return quote
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/`(.*?)`/g, "<code>$1</code>")
+}
+
 function pageInit() {
     console.log("Initializing quote and quiz question");
     console.log("quoteURL: " + quoteURL);
@@ -51,7 +58,7 @@ function pageInit() {
     answerHTMLTemplate = document.getElementById('answers').innerHTML;
 
     httpGet(quoteURL, function (quote) {
-        document.getElementById('quote-text').innerHTML = JSON.parse(quote).replace(/`(.*?)`/g, "<code>$1</code>");
+        document.getElementById('quote-text').innerHTML = toHTML(JSON.parse(quote));
     });
 
     showNextQuestion();
