@@ -45,7 +45,7 @@ body {
 }
 
 #quote-text {
-    line-height: 1.5em;
+    line-height: 1.6em;
 }
 
 code {
@@ -66,67 +66,130 @@ code {
     font-weight: bold;
 }
 
-ul#answers {
+ol#answers {
     list-style-type: none;
     padding-left: 0;
 }
 
-ul#answers li {
-    padding: 0.15em 0 0 0.4em;
+ol#answers li {
     border: solid transparent 2px;
+    border-radius: 10px;
+    margin-bottom: 0.2em;
 }
-ul#answers li input[type=radio]:before {
-    line-height: 1.3em;
-    content: '\2610'
+ol#answers li.selectable:hover {
+    border: solid #cccccc 2px;
 }
-ul#answers li input[type=radio]:disabled {
+ol#answers li input[type=radio]:before {
+    /*line-height: 1.3em;*/
+    /*content: '\2610';*/
+    text-align: center;
+    border: solid #cccccc 2px;
+    color: #666666;
+    border-radius: 25%;
+    height: 1.1em;
+    width: 1.1em;
+    display: inline-block;
+    margin: 0.2em;
+    font-weight: bold;
+}
+ol#answers li input[type=radio]:disabled:before {
     color: #cccccc;
 }
-ul#answers li input[type=radio] {
+ol#answers li input[type=radio] {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    font-size: 2em;
+    font-size: 1.5em;
     cursor: pointer;
     margin: 0;
+    display: inline-block;
+    width: 2em;
 }
-ul#answers li label {
-    padding-left: .5em;
+ol#answers li label {
     cursor: pointer;
-    position: relative;
-    top: -0.3em;
+    display: inline-block;
+    max-width: calc(100% - 2em - 16px);
+    padding-top: 0.5em;
+    padding-bottom: 0.4em;
+    min-height: 1.6em;
+    vertical-align: top;
+    line-height: 1.6em;
+    width: 100%;
 }
-ul#answers li input:disabled+label {
-    color: #cccccc;
+ol#answers li input:disabled+label {
+    opacity: 20%;
 }
 
-ul#answers li.correct-answer {
+ol#answers li.correct-answer +input[type=radio]:checked {
+    border: solid black 2px;
+}
+
+ol#answers li.selected-answer {
+    border: solid black 2px;
+}
+
+ol#answers li.correct-answer {
+    color: #689654;
+}
+ol#answers li.correct-answer-selected {
     color: #689654;
     border: solid #689654 2px;
-    border-radius: 10px;
 }
-ul#answers li.correct-answer input[type=radio]:before {
-    content: '\1f5f9'
+ol#answers li.correct-answer input[type=radio]:before, ol#answers li.correct-answer-selected input[type=radio]:before {
+    border-color: #689654;
+    color: #689654;
+    opacity: 100%;
 }
-ul#answers li.correct-answer input[type=radio] {
+ol#answers li.correct-answer input[type=radio],ol#answers li.correct-answer-selected input[type=radio] {
     color: #689654;
 }
-ul#answers li.correct-answer input:disabled+label {
+ol#answers li.correct-answer input:disabled+label,ol#answers li.correct-answer-selected input:disabled+label {
     color: black;
+    opacity: 100%;
 }
 
-ul#answers li.incorrect-answer {
+ol#answers li.incorrect-answer {
+    color: #b73829;
+    border: solid #b7382933 2px;
+}
+ol#answers li.incorrect-answer input[type=radio] {
     color: #b73829;
 }
-ul#answers li.incorrect-answer input[type=radio] {
+ol#answers li.incorrect-answer input[type=radio]:before {
+    color: #b73829;
+    border-color: #b73829;
+    opacity: 20%;
+}
+ol#answers li.incorrect-answer input:disabled+label {
     color: #b73829;
 }
-ul#answers li.incorrect-answer input[type=radio]:before {
-    content: '\1f5f7'
+
+ol#answers li#answer-0-li input[type=radio]:before {
+    content: 'A';
 }
-ul#answers li.incorrect-answer input:disabled+label {
-    text-decoration-line: line-through;
-    color: #b73829;
+ol#answers li#answer-1-li input[type=radio]:before {
+    content: 'B';
+}
+ol#answers li#answer-2-li input[type=radio]:before {
+    content: 'C';
+}
+ol#answers li#answer-3-li input[type=radio]:before {
+    content: 'D';
+}
+ol#answers li#answer-4-li input[type=radio]:before {
+    content: 'E';
+}
+ol#answers li#answer-5-li input[type=radio]:before {
+    content: 'F';
+}
+ol#answers li#answer-6-li input[type=radio]:before {
+    content: 'G';
+}
+ol#answers li#answer-7-li input[type=radio]:before {
+    content: 'H';
+}
+ol#answers li#answer-8-li input[type=radio]:before {
+    content: 'I';
 }
 
 input[type=button] {

@@ -27,9 +27,14 @@
             <div id="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor?</div>
             <form name="quiz">
                 <input type="hidden" name="questionId" id="questionId">
-                <ul id="answers">
-                    <li id="answer-{index}-li"><input type="radio" name="answer" id="answer-{index}" value="{index}" onchange="submitAnswer()"><label for="answer-{index}">{text}</label></li>
-                </ul>
+                <ol id="answers">
+                    <li id="answer-{index}-li" class="selectable"><input type="radio" name="answer" id="answer-{index}" value="{index}" onchange="submitAnswer()"><label for="answer-{index}">{text}</label></li>
+<!--                    <li id="answer-0-li" class="selectable"><input type="radio" name="answer" id="answer-0" value="{index}"><label for="answer-{index}">unselected answer</label></li>-->
+<!--                    <li id="answer-1-li" class="selectable"><input type="radio" name="answer" id="answer-1" value="{index}"><label for="answer-{index}">multiline answer lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.</label></li>-->
+<!--                    <li id="answer-2-li"><input type="radio" name="answer" id="answer-2" value="{index}" disabled><label for="answer-{index}">disabled answer</label></li>-->
+<!--                    <li id="answer-3-li" class="correct-answer"><input type="radio" name="answer" id="answer-3" value="{index}"><label for="answer-{index}">correct answer lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.</label></li>-->
+<!--                    <li id="answer-4-li" class="incorrect-answer"><input type="radio" name="answer" id="answer-4" value="{index}"><label for="answer-{index}">incorrect answer</label></li>-->
+                </ol>
                 <input type="button" id="next-button" value="Next question &#128898;" onclick="showNextQuestion()">
             </form>
         </div>

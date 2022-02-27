@@ -110,15 +110,23 @@ function submitAnswer() {
         JSON.stringify(body),
         function (responseJSON) {
             let response = JSON.parse(responseJSON);
-            document.getElementById("answer-" + response.correctAnswerIndex + "-li").className = "correct-answer";
-            // document.getElementById("answer-" + response.correctAnswerIndex + "-li").appendChild(htmlToElement("&nbsp;&#9989;"));
-            if (answerIndex !== response.correctAnswerIndex) {
-                document.getElementById("answer-" + answerIndex + "-li").className = "incorrect-answer";
-            }
 
             document.getElementById('next-button').style.visibility = "";
             for (let i = 0; i < document.forms.quiz.answer.length; i++) {
                 document.forms.quiz.answer[i].disabled = "disabled";
+                let clazz = "";
+                if (i === response.correctAnswerIndex) {
+                    if (i === answerIndex) {
+                        clazz = "correct-answer-selected";
+                    } else {
+                        clazz = "correct-answer";
+                    }
+                } else {
+                    if (i === answerIndex && answerIndex !== response.correctAnswerIndex) {
+                        clazz = "incorrect-answer";
+                    }
+                }
+                document.getElementById("answer-" + i + "-li").className = clazz;
             }
         });
 }
