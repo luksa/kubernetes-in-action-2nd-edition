@@ -32,7 +32,7 @@ You can display timestamps by only typing `--timestamps` without the value. For 
 %
 By default, the `kubectl delete` command waits until the object no longer exists. To skip the wait, run the command with the `--wait=false` option.
 %
-You can use the `jq` tool to print out the value of a pod’s phase field like this: `kubectl get po kiada -o json | jq .status.phase`.
+You can use the `jq` tool to print out the value of a pod’s `phase` field like this: `kubectl get po kiada -o json | jq .status.phase`.
 %
 You can also display the container status(es) using `jq` like this: `kubectl get po kiada -o json | jq .status.containerStatuses`.
 %
@@ -72,7 +72,7 @@ To display only the key/value pairs, combine `kubectl` with `jq`. For example: `
 %
 When you use `kubectl get -o yaml` to display the YAML definition of a pod, note that the file permissions are represented as decimal values. For example, you’ll regularly see the value 420. This is the decimal equivalent of the octal value 0644, which is the default file permissions.
 %
-If you use the subPath field to mount individual files instead of the entire configMap volume, the file won’t be updated when you modify the config map.
+If you use the `subPath` field to mount individual files instead of the entire configMap volume, the file won’t be updated when you modify the config map.
 %
 Like config maps, the maximum size of a secret is approximately 1MB.
 %
