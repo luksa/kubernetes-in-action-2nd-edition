@@ -22,25 +22,27 @@ The code archive is organized per chapter. You'll find a description of the file
 
 ### Part II: Learning the ropes: _Kubernetes API objects_
 
-4\) Introducing the Kubernetes API objects (no code files)
+4\) Introducing Kubernetes API objects (no code files)
 
-5\) [Running applications in Pods](Chapter05/)
+5\) [Running workloads in Pods](Chapter05/)
 
-6\) [Managing the lifecycle of the Pod's containers](Chapter06/)
+6\) [Managing the Pod lifecycle](Chapter06/)
 
-7\) [Mounting storage volumes into the Pod's containers](Chapter07/)
+7\) [Attaching storage volumes to Pods](Chapter07/)
 
-8\) [Persisting application data with PersistentVolumes](Chapter08/)
+8\) [Persisting data in PersistentVolumes](Chapter08/)
 
-9\) [Configuring applications using ConfigMaps, Secrets, and the Downward API](Chapter09/)
+9\) [Configuration via ConfigMaps, Secrets, and the Downward API](Chapter09/)
 
-10\) [Organizing objects using Namespaces, labels, and selectors](Chapter10/)
+10\) [Organizing objects using Namespaces and Labels](Chapter10/)
 
-11\) [Exposing pods with Services](Chapter11/)
+11\) [Exposing Pods with Services](Chapter11/)
 
-12\) [Exposing services externally using Ingresses](Chapter12/)
+12\) [Exposing services with Ingress](Chapter12/)
 
-13\) [Deploying applications using Deployments and ReplicaSets](Chapter13/)
+13\) [Replicating Pods with ReplicaSets](Chapter13/)
+
+14\) [Managing Pods with Deployments](Chapter14/)
 
 
 ## Contributing
