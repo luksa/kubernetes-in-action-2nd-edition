@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-agent
+  labels:
+    app: node-agent
+spec:
+  selector:
+    matchLabels:
+      app: node-agent
+  template:
+    metadata:
+      labels:
+        app: node-agent
+    spec:
+      hostNetwork: true
+      volumes:
+      - name: hostproc
+        hostPath:
+          path: /proc
+      containers:
+      - name: node-agent
+        image: luksa/node-agent:0.1
+        imagePullPolicy: Always
+        args:
+        - --listen-address
+        - :11559
+        volumeMounts:
+        - name: hostproc
+          mountPath: /host/proc
+          readOnly: true
+        ports:
+        - name: http
+          containerPort: 11559
+        readinessProbe:
+          failureThreshold: 1
+          httpGet:
+            port: 11559
+            scheme: HTTP

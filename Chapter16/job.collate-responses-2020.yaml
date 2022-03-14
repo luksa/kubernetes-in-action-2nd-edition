@@ -1,0 +1,92 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: collate-responses-2020
+  labels:
+    app: collate-responses
+    year: "2020"
+spec:
+  template:
+    metadata:
+      labels:
+        app: collate-responses
+        year: "2020"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        command:
+        - sh
+        - -c
+        - |
+          mongosh mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false --quiet --file /dev/stdin <<EOF
+
+          var year = parseInt(process.env["YEAR"]);
+          
+          var dateFrom = new Date(year + "-1-1Z");
+          var dateTo = new Date((year+1) + "-1-1Z");
+          
+          print("Processing quiz responses - in year");
+          print("===================================");
+          print();
+          print("Year: " + year);
+          print();
+          print("Query range:");
+          print("  From: " + dateFrom);
+          print("  To:   " + dateTo);
+          print();
+          print("Results:")
+          
+          var cursor = db.responses.aggregate(
+            {
+              $match: {
+                timestamp: { $gte: dateFrom, $lt: dateTo }
+              }
+            },
+            {
+              $group: {
+                _id: { $dateTrunc: { date: "$timestamp", unit: "day" } },
+                totalCount: { $sum: 1 },
+                correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
+                incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },
+              }
+            }
+          );
+          
+          var matched = 0;
+          var inserted = 0;
+          var updated = 0;
+          if (cursor.hasNext()) {
+            while (cursor.hasNext()) {
+              var result = cursor.next();
+              print("  " + JSON.stringify(result));
+      
+              var writeResult = db.statistics.replaceOne(
+                  {_id: result._id},
+                  result,
+                  { upsert: true }
+              );
+              matched += writeResult.matchedCount;
+              inserted += writeResult.upsertedCount;
+              updated += writeResult.modifiedCount;
+            }
+            cursor.close();
+          
+            print();
+            print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
+          } else {
+            print("  No responses found.");
+          }
+        
+          var sleepSeconds = Math.floor(30 + Math.random() * 30); 
+          print();
+          print("Waiting " + sleepSeconds + " to simulate long-running task.");
+          sleep(sleepSeconds * 1000);
+          
+          print();
+          print("Done.");
+          EOF

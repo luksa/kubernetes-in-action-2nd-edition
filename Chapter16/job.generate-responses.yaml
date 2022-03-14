@@ -1,0 +1,83 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: generate-responses
+  labels:
+    app: quiz
+spec:
+  completions: 10
+  parallelism: 3
+  template:
+    metadata:
+      labels:
+        app: quiz
+    spec:
+      restartPolicy: Never  # also works with OnFailure, but then failures are handled at the Pod level instead of Job
+      containers:
+      - name: mongo
+        image: mongo:5
+        command:
+        - sh
+        - -c
+        - |
+          mongosh mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false --quiet --file /dev/stdin <<EOF
+    
+          const dateFrom = new Date("2020-01-01Z");
+          const dateTo = new Date("2023-01-01Z");
+          const maxTimeBetweenResponsesMillis = 4 * 3600 * 1000;
+          const failProbability = 0.25;
+          const batchSize = 10;
+          
+          print("Generating dummy quiz responses");
+          print("===============================");
+          print();
+          
+          if (Math.random() < failProbability) {
+            print("Simulating failure. Exiting.");
+            quit(1);
+          }
+          
+          var cursor = db.questions.find();
+          var questions = cursor.toArray();
+          cursor.close();
+      
+          print("Found " + questions.length + " questions.");
+          print();
+          print("Date range:");
+          print("  From: " + dateFrom);
+          print("  To:   " + dateTo);
+          print();
+          print("Generated responses:")
+          
+          var count=0;
+          var responses = [];
+          var date = dateFrom;
+          do {
+            date.setTime(date.getTime() + Math.floor(Math.random() * maxTimeBetweenResponsesMillis));
+          
+            var question = questions[Math.floor(Math.random() * questions.length)];
+            var answerIndex = Math.floor(Math.random() * question.answers.length);
+            var response = {
+              timestamp: date,
+              questionId: question.id,
+              answerIndex: answerIndex,
+              correctAnswerIndex: question.correctAnswerIndex,
+              correct: answerIndex == question.correctAnswerIndex
+            };
+            print(JSON.stringify(response));
+            responses.push(response);
+            count++;
+          
+            if (count % batchSize == 0) {
+              db.responses.insertMany(responses);
+              responses = [];
+            }
+          } while (date.getTime() < dateTo)
+          
+          db.responses.insertMany(responses); // insert any remaining responses
+                     
+          print();
+          print("Generated a total of " + count + " responses.");
+          print();
+          print("Done.");
+          EOF

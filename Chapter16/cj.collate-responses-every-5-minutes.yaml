@@ -1,0 +1,106 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: collate-responses-every-5-minutes
+spec:
+#  schedule: 0 * * * *
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    metadata:
+      labels:
+        app: collate-responses-today
+    spec:
+      template:
+        metadata:
+          labels:
+            app: collate-responses-today
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: updater
+            image: mongo:5
+            command:
+            - mongosh
+            - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+            - --quiet
+            - --file
+            - /script.js
+            volumeMounts:
+            - name: script
+              subPath: script.js
+              mountPath: /script.js
+          volumes:
+          - name: script
+            configMap:
+              name: collate-responses-today
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collate-responses-today
+  labels:
+    app: collate-responses-today
+data:
+  script.js: |
+    var dateFrom = new Date();
+    dateFrom.setHours(0,0,0,0);
+    
+    var dateTo = new Date(dateFrom.getTime() + 24*3600*1000);
+    
+    print("Processing quiz responses - today");
+    print("=================================");
+    print();
+    print("Query range:");
+    print("  From: " + dateFrom);
+    print("  To:   " + dateTo);
+    print();
+    print("Results:")
+    
+    var cursor = db.responses.aggregate(
+      {
+        $match: {
+          timestamp: { $gte: dateFrom, $lt: dateTo }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateTrunc: { date: "$timestamp", unit: "day" } },
+          totalCount: { $sum: 1 },
+          correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
+          incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },
+        }
+      }
+    );
+    
+    var matched = 0;
+    var inserted = 0;
+    var updated = 0;
+    if (cursor.hasNext()) {
+      while (cursor.hasNext()) {
+        var result = cursor.next();
+        print("  " + JSON.stringify(result));
+
+        var writeResult = db.statistics.replaceOne(
+            {_id: result._id},
+            result,
+            { upsert: true }
+        );
+        matched += writeResult.matchedCount;
+        inserted += writeResult.upsertedCount;
+        updated += writeResult.modifiedCount;
+      }
+      cursor.close();
+    
+      print();
+      print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
+    } else {
+      print("  No responses found.");
+    }
+    
+    var sleepSeconds = Math.floor(30 + Math.random() * 30); 
+    print();
+    print("Waiting " + sleepSeconds + " to simulate long-running task.");
+    sleep(sleepSeconds * 1000);
+    
+    print();
+    print("Done.");

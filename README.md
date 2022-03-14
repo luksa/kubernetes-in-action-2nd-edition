@@ -46,6 +46,8 @@ The code archive is organized per chapter. You'll find a description of the file
 
 15\) [Deploying stateful workloads with StatefulSets](Chapter15/)
 
+16\) [Deploying node agents and daemons with DaemonSets](Chapter16/)
+
 ## Contributing
 
 If you'd like to contribute a code improvement or a bug fix, please submit a pull request in this GitHub repository. Note that some files are intentionally incomplete and may even contain intentional errors for demonstration purposes.   

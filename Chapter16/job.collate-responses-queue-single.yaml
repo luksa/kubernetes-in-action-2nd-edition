@@ -1,0 +1,98 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: collate-responses-queue-single
+  labels:
+    app: collate-responses-queue-single
+spec:
+  completions: 6
+  parallelism: 3
+  template:
+    metadata:
+      labels:
+        app: collate-responses-queue-single
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        command:
+        - sh
+        - -c
+        - |
+          mongosh mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false --quiet --file /dev/stdin <<EOF
+
+          print("Processing quiz responses - queue - single work item");
+          print("====================================================");
+          print();
+          print("Fetching work item from queue...");
+          print();
+      
+          var workItem = db.monthsToProcess.findOneAndDelete({});
+          if (workItem == null) {
+            print("No work item found. Processing is complete.");
+            quit(0);
+          }
+          print("Found work item:");
+          print("  Year:  " + workItem.year);
+          print("  Month: " + workItem.month);
+          print();
+          
+          var year = parseInt(workItem.year);
+          var month = parseInt(workItem.month) + 1;
+          
+          var dateFrom = new Date(year + "-" + month + "-1Z");
+          var dateTo = new Date(dateFrom);
+          dateTo.setMonth(dateTo.getMonth() + 1);
+        
+          print("Query range:");
+          print("  From: " + dateFrom);
+          print("  To:   " + dateTo);
+          print();
+          
+          var cursor = db.responses.aggregate(
+            {
+              $match: {
+                timestamp: { $gte: dateFrom, $lt: dateTo }
+              }
+            },
+            {
+              $group: {
+                _id: { $dateTrunc: { date: "$timestamp", unit: "day" } },
+                totalCount: { $sum: 1 },
+                correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
+                incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },
+              }
+            }
+          );
+          
+          var matched = 0;
+          var inserted = 0;
+          var updated = 0;
+          if (cursor.hasNext()) {
+            while (cursor.hasNext()) {
+              var result = cursor.next();
+      
+              var writeResult = db.statistics.replaceOne(
+                  {_id: result._id},
+                  result,
+                  { upsert: true }
+              );
+              matched += writeResult.matchedCount;
+              inserted += writeResult.upsertedCount;
+              updated += writeResult.modifiedCount;
+            }
+            cursor.close();
+            print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
+          } else {
+            print("  No responses found.");
+          }
+        
+          var sleepSeconds = Math.floor(30 + Math.random() * 30); 
+          print();
+          print("Waiting " + sleepSeconds + " to simulate long-running task.");
+          sleep(sleepSeconds * 1000);
+          
+          print();
+          print("Done.");
+          EOF

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  internalTrafficPolicy: Local
+  selector:
+    app: demo
+  ports:
+  - name: http
+    port: 80
