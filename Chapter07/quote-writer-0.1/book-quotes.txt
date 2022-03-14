@@ -4,7 +4,7 @@ Don’t add unnecessary files to the build directory, as they will slow down the
 %
 Each directive creates a new layer. I have already mentioned that when you delete a file, it is only marked as deleted in the new layer and is not removed from the layers below. Therefore, deleting a file with a subsequent directive won’t reduce the size of the image. If you use the RUN directive, make sure that the command it executes deletes all temporary files it creates before it terminates.
 %
-Entering a running container like this is useful when debugging an app running in a container. When something breaks, the first thing you’ll want to investigate is the actual state of the system your application sees.
+Entering a running container with `kubectl exec` is a great first step when you want to debug an app. When something breaks, the first thing you’ll want to investigate is the actual state of the system your application sees.
 %
 If you use Linux, you can reduce the resources required by Minikube by creating the cluster without a VM. Use this command: `minikube start --vm-driver none`.
 %
