@@ -44,6 +44,7 @@ The code archive is organized per chapter. You'll find a description of the file
 
 14\) [Managing Pods with Deployments](Chapter14/)
 
+15\) [Deploying stateful workloads with StatefulSets](Chapter15/)
 
 ## Contributing
 
