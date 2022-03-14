@@ -10,7 +10,8 @@ spec:
   - name: initdb
     emptyDir: {}
   - name: quiz-data
-    emptyDir: {}
+    persistentVolumeClaim:
+      claimName: quiz-data
   initContainers:
   - name: installer
     image: luksa/quiz-initdb-script-installer:0.1
@@ -33,4 +34,3 @@ spec:
     - name: initdb
       mountPath: /docker-entrypoint-initdb.d/
       readOnly: true
-
