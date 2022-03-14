@@ -2,41 +2,23 @@ package main
 
 import (
 	"log"
-	"os"
-)
 
+	flag "github.com/spf13/pflag"
+)
 
 func main() {
 	log.Printf("Quiz API Server 0.1 starting...")
 
-	listenAddress := getConfigOption("listen-address", "LISTEN_ADDRESS", ":8080")
-	mongoAddress := getConfigOption("mongo-address", "MONGO_ADDRESS", "mongodb://127.0.0.1:27017")
+	listenAddress := flag.String("listen-address", ":8080", "The address that the server should bind to")
+	mongoAddress := flag.String("mongo-address", "mongodb://127.0.0.1:27017", "The address of the MongoDB service")
+	flag.Parse()
 
-	log.Printf("Listen address:  %q", listenAddress)
-	log.Printf("MongoDB address: %q", mongoAddress)
+	log.Printf("Listen address:  %q", *listenAddress)
+	log.Printf("MongoDB address: %q", *mongoAddress)
 
-	db := NewDatabase(mongoAddress)
-
-	log.Printf("Checking if MongoDB is reachable...")
-	conn, err := db.Connect()
-	if err != nil {
-		log.Fatalf("Could not connect to MongoDB: %v", err)
-	}
-	conn.Close()
-	log.Printf("MongoDB connection check succeeded!")
+	db := NewDatabase(*mongoAddress)
 
 	log.Printf("Starting HTTP server...")
 	server := NewHTTPServer(db)
-	server.ListenAndServe(listenAddress)
+	server.ListenAndServe(*listenAddress)
 }
-
-func getConfigOption(argName string, envVarName string, defaultValue string) string {
-	// TODO
-	value := os.Getenv(envVarName)
-	if value != "" {
-		return value
-	}
-	return defaultValue
-}
-
-

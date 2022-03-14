@@ -27,16 +27,16 @@ func NewDatabase(mongoURI string) Database {
 }
 
 func (db *Database) Connect() (*Connection, error) {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions := options.Client().ApplyURI(db.mongoURI)
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Errorf("could not connect to mongo: %v", err)
 	}
 
 	err = client.Ping(context.TODO(), nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("connected to mongo, but couldn't execute the ping command: %v", err)
 	}
 
 	return &Connection{client: client}, nil
@@ -103,11 +103,11 @@ func (c *Connection) InsertAnswer(answer Answer) error {
 	collection := c.client.Database(dbName).Collection(collectionPostedAnswers)
 
 	// Insert a single document
-	_, err := collection.InsertOne(context.TODO(), answer)
+	result, err := collection.InsertOne(context.TODO(), answer)
 	if err != nil {
 		return err
 	}
-	// log.Println("Inserted answer with internal ID ", insertResult.InsertedID)
+	log.Println("Inserted answer with internal ID ", result.InsertedID)
 	return nil
 }
 

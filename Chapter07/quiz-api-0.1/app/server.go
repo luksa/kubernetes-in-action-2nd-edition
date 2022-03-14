@@ -151,7 +151,7 @@ func (s *HTTPServer) handlePostAnswer(res http.ResponseWriter, req *http.Request
 }
 
 func (s *HTTPServer) handleInternalError(res http.ResponseWriter, err error) {
-	log.Printf("ERROR: %v", err)
+	log.Printf("INTERNAL ERROR: %v", err)
 	s.errorResponse(res, http.StatusInternalServerError, err)
 }
 
