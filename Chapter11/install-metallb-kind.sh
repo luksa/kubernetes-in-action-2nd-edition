@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
 
 KIND_ADDRESS_RANGE=$(docker network inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r)
 if [[ "$KIND_ADDRESS_RANGE" == *.0.0/16 ]]; then
