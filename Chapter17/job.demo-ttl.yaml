@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-ttl
+spec:
+  completions: 1
+  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: demo
+        image: busybox
+        command:
+        - sleep
+        - "20"
+

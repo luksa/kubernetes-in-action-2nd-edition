@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-test
+  labels:
+    app: dns-test
+spec:
+  subdomain: dns-test-service
+  containers:
+  - name: dns-test
+    image: busybox
+    command:
+    - sleep
+    - infinity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dns-test-service
+spec:
+  selector:
+    app: dns-test
+  ports:
+  - name: http
+    port: 80

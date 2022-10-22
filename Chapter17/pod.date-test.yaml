@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: date-test
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: mongo
+    image: mongo:5
+    command:
+    - sh
+    - -c
+    - |
+      mongosh mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false --quiet --file /dev/stdin <<EOF
+
+      testDate(new Date("2020-01-01Z"));
+      testDate(new Date("2020-02-01Z"));
+      testDate(new Date("2020-03-01Z"));
+      testDate(new Date("2020-04-01Z"));
+      testDate(new Date("2020-10-01Z"));
+      testDate(new Date("2020-11-01Z"));
+      testDate(new Date("2020-12-01Z"));
+      testDate(new Date("2021-01-01Z"));
+      testDate(new Date("2021-02-01Z"));
+      testDate(new Date("2021-03-01Z"));
+      testDate(new Date("2021-04-01Z"));
+      testDate(new Date("2021-10-01Z"));
+      testDate(new Date("2021-11-01Z"));
+      testDate(new Date("2021-12-01Z"));
+      testDate(new Date("2022-01-01Z"));
+      testDate(new Date("2022-02-01Z"));
+      testDate(new Date("2022-03-01Z"));
+      testDate(new Date("2022-04-01Z"));
+      testDate(new Date("2022-10-01Z"));
+      testDate(new Date("2022-11-01Z"));
+      testDate(new Date("2022-12-01Z"));
+      
+      function testDate(date) {
+        var date2 = new Date(date);
+        date2.setMonth(date2.getMonth() + 1);
+        print("date1: " + date);
+        print("date2: " + date2);
+        print();
+      }
+
+      EOF

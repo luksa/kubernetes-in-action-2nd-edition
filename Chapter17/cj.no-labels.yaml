@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: no-labels
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: test
+            image: busybox
+            command:
+            - sleep
+            - '1'
