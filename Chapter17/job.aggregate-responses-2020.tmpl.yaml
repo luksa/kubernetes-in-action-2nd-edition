@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-__MONTH__
+spec:
+  completionMode: NonIndexed
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "__MONTH__"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses

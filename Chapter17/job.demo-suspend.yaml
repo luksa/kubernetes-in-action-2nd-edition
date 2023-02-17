@@ -3,8 +3,6 @@ kind: Job
 metadata:
   name: demo-suspend
 spec:
-  completions: 10
-  parallelism: 3
   suspend: true
   template:
     spec:

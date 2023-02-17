@@ -1,31 +1,21 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: aggregate-responses-2021
+  name: aggregate-responses-queue-coarse
   labels:
-    app: aggregate-responses
-    year: "2021"
+    app: aggregate-responses-queue-coarse
 spec:
-  completionMode: Indexed
-  completions: 12
+  completions: 6
   parallelism: 3
   template:
     metadata:
       labels:
-        app: aggregate-responses
-        year: "2021"
+        app: aggregate-responses-queue-coarse
     spec:
       restartPolicy: OnFailure
       containers:
-      - name: updater
+      - name: processor
         image: mongo:5
-        env:
-        - name: YEAR
-          value: "2021"
-        # - name: MONTH_INDEX
-        #   valueFrom:
-        #     fieldRef:
-        #       fieldPath: metadata.annotations['batch.kubernetes.io/job-completion-index']
         command:
         - mongosh
         - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
@@ -39,34 +29,43 @@ spec:
       volumes:
       - name: script
         configMap:
-          name: aggregate-responses-indexed
+          name: aggregate-responses-queue-coarse
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aggregate-responses-indexed
+  name: aggregate-responses-queue-coarse
   labels:
-    app: aggregate-responses-indexed
+    app: aggregate-responses-queue-coarse
 data:
   script.js: |
-    var year = parseInt(process.env["YEAR"]);
-    var month = parseInt(process.env["JOB_COMPLETION_INDEX"]) + 1;
+    print("Processing quiz responses - queue - single work item");
+    print("====================================================");
+    print();
+    print("Fetching one work item from queue...");
+    print();
 
+    var workItem = db.monthsToProcess.findOneAndDelete({});
+    if (workItem == null) {
+      print("No work item found. Processing is complete.");
+      quit(0);
+    }
+    print("Found work item:");
+    print("  Year:  " + workItem.year);
+    print("  Month: " + workItem.month);
+    print();
+    
+    var year = parseInt(workItem.year);
+    var month = parseInt(workItem.month) + 1;
+    
     var dateFrom = new Date(year + "-" + month + "-1Z");
     var dateTo = new Date(dateFrom);
     dateTo.setMonth(dateTo.getMonth() + 1);
-    
-    print("Processing quiz responses - in month " + month);
-    print("==============================================");
-    print();
-    print("Year:  " + year);
-    print("Month: " + month);
-    print();
+  
     print("Query range:");
     print("  From: " + dateFrom);
     print("  To:   " + dateTo);
     print();
-    print("Results:")
     
     var cursor = db.responses.aggregate(
       {
@@ -90,8 +89,7 @@ data:
     if (cursor.hasNext()) {
       while (cursor.hasNext()) {
         var result = cursor.next();
-        print("  " + JSON.stringify(result));
-    
+
         var writeResult = db.statistics.replaceOne(
             {_id: result._id},
             result,
@@ -102,8 +100,6 @@ data:
         updated += writeResult.modifiedCount;
       }
       cursor.close();
-    
-      print();
       print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
     } else {
       print("  No responses found.");

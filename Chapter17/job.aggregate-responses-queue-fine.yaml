@@ -1,0 +1,118 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-queue-fine
+  labels:
+    app: aggregate-responses-queue-fine
+spec:
+  parallelism: 3
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses-queue-fine
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: processor
+        image: mongo:5
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses-queue-fine
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aggregate-responses-queue-fine
+  labels:
+    app: aggregate-responses-queue-fine
+data:
+  script.js: |
+    print("Processing quiz responses - queue - all work items");
+    print("==================================================");
+    print();
+    print("Fetching work items from queue...");
+    print();
+
+    while (true) {
+      var workItem = db.monthsToProcess.findOneAndDelete({});
+      if (workItem == null) {
+        print("No work item found. Processing is complete.");
+        quit(0);
+      }
+      print("Found work item:");
+      print("  Year:  " + workItem.year);
+      print("  Month: " + workItem.month);
+      print();
+      
+      var year = parseInt(workItem.year);
+      var month = parseInt(workItem.month) + 1;
+      
+      var dateFrom = new Date(year + "-" + month + "-1Z");
+      var dateTo = new Date(dateFrom);
+      dateTo.setMonth(dateTo.getMonth() + 1);
+    
+      print("Query range:");
+      print("  From: " + dateFrom);
+      print("  To:   " + dateTo);
+      print();
+      
+      var cursor = db.responses.aggregate(
+        {
+          $match: {
+            timestamp: { $gte: dateFrom, $lt: dateTo }
+          }
+        },
+        {
+          $group: {
+            _id: { $dateTrunc: { date: "$timestamp", unit: "day" } },
+            totalCount: { $sum: 1 },
+            correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
+            incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },
+          }
+        }
+      );
+      
+      var matched = 0;
+      var inserted = 0;
+      var updated = 0;
+      if (cursor.hasNext()) {
+        while (cursor.hasNext()) {
+          var result = cursor.next();
+  
+          var writeResult = db.statistics.replaceOne(
+              {_id: result._id},
+              result,
+              { upsert: true }
+          );
+          matched += writeResult.matchedCount;
+          inserted += writeResult.upsertedCount;
+          updated += writeResult.modifiedCount;
+        }
+        cursor.close();
+        print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
+      } else {
+        print("  No responses found.");
+      }
+    
+      var sleepSeconds = Math.floor(10 + Math.random() * 10); 
+      print();
+      print("Waiting " + sleepSeconds + "s to simulate long-running task.");
+      sleep(sleepSeconds * 1000);
+      
+      print();
+      print("Done processing item.");
+      print("------------------");
+      print();
+    }
+    

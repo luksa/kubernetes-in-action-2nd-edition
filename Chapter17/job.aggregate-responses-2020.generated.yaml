@@ -1,0 +1,491 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-1
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "1"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "1"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "1"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-2
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "2"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "2"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "2"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-3
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "3"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "3"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "3"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-4
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "4"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "4"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "4"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-5
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "5"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "5"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "5"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-6
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "6"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "6"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "6"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-7
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "7"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "7"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "7"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-8
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "8"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "8"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "8"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-9
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "9"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "9"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "9"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-10
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "10"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "10"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "10"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-11
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "11"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "11"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "11"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-2020-12
+  labels:
+    app: aggregate-responses
+    year: "2020"
+    month: "12"
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      labels:
+        app: aggregate-responses
+        year: "2020"
+        month: "12"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: updater
+        image: mongo:5
+        env:
+        - name: YEAR
+          value: "2020"
+        - name: MONTH
+          value: "12"
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses
