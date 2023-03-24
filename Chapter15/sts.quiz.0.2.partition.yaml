@@ -37,7 +37,7 @@ spec:
             path: /healthz/ready
             scheme: HTTP
       - name: mongo
-        image: mongo:5
+        image: mongo:4.4.6
         command:
         - mongod
         - --bind_ip

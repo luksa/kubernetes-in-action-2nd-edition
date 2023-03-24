@@ -15,7 +15,7 @@ spec:
       restartPolicy: OnFailure
       initContainers:
       - name: init
-        image: mongo:5
+        image: mongo:4.4.6
         command:
         - sh
         - -c
@@ -54,7 +54,7 @@ spec:
           EOF
       containers:
       - name: import
-        image: mongo:5
+        image: mongo:4.4.6
         command:
         - mongoimport
         - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false

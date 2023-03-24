@@ -10,7 +10,7 @@ spec:
       name: quiz-questions
   containers:
   - name: mongoimport
-    image: mongo:5
+    image: mongo:4.4.6
     command:
     - mongoimport
     - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false

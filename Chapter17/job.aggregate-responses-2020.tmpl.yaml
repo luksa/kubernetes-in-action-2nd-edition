@@ -9,7 +9,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: updater
-        image: mongo:5
+        image: mongo:4.4.6
         env:
         - name: YEAR
           value: "2020"

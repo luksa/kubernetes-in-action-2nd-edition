@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: updater
-            image: mongo:5
+            image: mongo:4.4.6
             command:
             - mongosh
             - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
