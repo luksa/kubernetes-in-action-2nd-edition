@@ -47,11 +47,9 @@ spec:
   ports:
   - name: http
     port: 80
-    nodePort: 30080
     targetPort: 8080
   - name: https
     port: 443
-    nodePort: 30443
     targetPort: 8443
 ---
 apiVersion: cloud.google.com/v1
