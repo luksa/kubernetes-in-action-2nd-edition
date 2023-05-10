@@ -11,5 +11,5 @@ spec:
     - name: http
       containerPort: 8080
   - name: mongo
-    image: mongo:5
+    image: mongo:4.4.6
 

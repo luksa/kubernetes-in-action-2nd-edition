@@ -10,7 +10,7 @@ spec:
       path: /some/path
   containers:
   - name: mongodb
-    image: mongo:5
+    image: mongo:4.4.6
     volumeMounts:
     - name: quiz-data
       mountPath: /data/db
