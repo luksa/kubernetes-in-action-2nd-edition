@@ -8,7 +8,7 @@ spec:
   containers:
   - name: server
     image: luksa/static-http-server:0.1
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     args:
     - --listen-address=:8080
     - --response-code=404

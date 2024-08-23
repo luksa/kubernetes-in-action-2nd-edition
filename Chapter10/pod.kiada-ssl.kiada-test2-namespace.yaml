@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: kiada-ssl
+  namespace: kiada-test2
 spec:
   volumes:
   - name: etc-envoy
@@ -41,10 +42,11 @@ spec:
     - name: http
       containerPort: 8080
   - name: envoy
-    image: envoyproxy/envoy:v1.14.1
+    image: envoyproxy/envoy:v1.31-latest
+    command: [ "envoy", "-c", "/etc/config/envoy.yaml" ]
     volumeMounts:
     - name: etc-envoy
-      mountPath: /etc/envoy
+      mountPath: /etc/config
       readOnly: true
     ports:
     - name: https
@@ -56,12 +58,17 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kiada-envoy-config
+  namespace: kiada-test2
 binaryData:
   dummy.bin: n2VW39IEkyQ6Jxo+rdo5J06Vi7cz5XxZzkPOtN7MOGyXxVzWv07vUz8bxY5h4njJfZixwhPwoGepLnGZdRGw1qgpFB9HpyLsqVZ6jAwjjHD0afxxwEjb6+wofmgGmS1E3U9BZScMPZGWJK7RGzZmQOeJeDPIt/1tBvQYwzMc8wu6owky4Ri3rOY9PlFnp5VOTzvBZadW8scbqtntJeWCtJFoS0AH2y4ZFyJPJ0l0V3JpY1qunnz60CyAMO9v1DgB2PUQUG/1HH89bpzf2OyMvHUJmOTIDZOh3D7aAEuYQ/6hU0uQsQ/K7Xx/nM9TA0RzEzuh8RBoXdkAvQPP5jk7yM2DqxG/CiHVp+7CDRFWgEN2GFd76RfO+pIoOFbD1Xm4yE/JBljOA9ztwm865m3A4l2ToT2p7ZWHKmdZe8pXz4ZwIGBYDUHHNVQW5UUnf0Jbd9UR8GJ//gmbxLfVxjC/lMSWGUqCpYO4YdBPjXQGM1xdxE+YP3Pzso6Z4rw27RJu5KEc2yPMxFY9dpFyVufP81kS19glNiQq+LM4B9EFPrNW1hqi+1Tb8ni+aFkriH1YuvHepIH0Px/ifFLgn+yDgwDs4UfMru2j4t5zAftUa0i6m3sH5adKcx4aCXYN9ijvEvjRmkcB/VJU6Zbd65UZVgD1Nwt2ZCrkoEdqO3Oe1/o=
 data:
   envoy.yaml: |
     admin:
-      access_log_path: /tmp/envoy.admin.log
+      access_log:
+      - name: envoy.access_log
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.access_loggers.file.v3.FileAccessLog
+          path: /tmp/envoy.admin.log
       address:
         socket_address:
           protocol: TCP
@@ -82,13 +89,13 @@ data:
               common_tls_context:
                 tls_certificates:
                 - certificate_chain:
-                    filename: "/etc/envoy/example-com.crt"
+                    filename: "/etc/config/example-com.crt"
                   private_key:
-                    filename: "/etc/envoy/example-com.key"
+                    filename: "/etc/config/example-com.key"
           filters:
           - name: envoy.filters.network.http_connection_manager
             typed_config:
-              "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
               stat_prefix: ingress_http
               route_config:
                 name: local_route
@@ -102,6 +109,8 @@ data:
                       cluster: service_kiada_localhost
               http_filters:
               - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
       clusters:
       - name: service_kiada_localhost
         connect_timeout: 0.25s
@@ -120,6 +129,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: kiada-tls
+  namespace: kiada-test2
 type: kubernetes.io/tls
 data:
   tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZrekNDQTN1Z0F3SUJBZ0lVUWhRaXVGUDd2RXBsQ0JHMTY3SUNHeGc0cTBFd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1dERUxNQWtHQTFVRUJoTUNXRmd4RlRBVEJnTlZCQWNNREVSbFptRjFiSFFnUTJsMGVURWNNQm9HQTFVRQpDZ3dUUkdWbVlYVnNkQ0JEYjIxd1lXNTVJRXgwWkRFVU1CSUdBMVVFQXd3TFpYaGhiWEJzWlM1amIyMHdJQmNOCk1qQXdOVEkzTURneE5UVTFXaGdQTWpFeU1EQTFNRE13T0RFMU5UVmFNRmd4Q3pBSkJnTlZCQVlUQWxoWU1SVXcKRXdZRFZRUUhEQXhFWldaaGRXeDBJRU5wZEhreEhEQWFCZ05WQkFvTUUwUmxabUYxYkhRZ1EyOXRjR0Z1ZVNCTQpkR1F4RkRBU0JnTlZCQU1NQzJWNFlXMXdiR1V1WTI5dE1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBZzhBCk1JSUNDZ0tDQWdFQXZXazJpN21UNTgyU0t5U0dMOW1SQmhCL2ZyZ0FzZUhKdU4rNVNMb1V1WGZUOVQyWXE3TFYKVEVrd1RKemFaSzA4NGgvdkIrbXZ4Z25ZS0hvS1NTVFdyYVZHa28vRGFmZU1ob29BRVNKUW0xeDlKUmhqZUYzNwo4UW5TZHJ4bW9yRmYzcGFzRk1nQk9aZEhhRm4vUlpESlMwODhUSGFxZGkxekUycXoreER3UFFUR09WMGNWc0FnClhXcCtOdUR6YlJLQXZMcmcxSFljM1I1NmdrTzhvdmx1UEpydHlxVmJoMzFvcHVSaFZTYjk3SEtuOHNSQmwyQmoKUzNOcGx3WEQyKy9NZHgreTRwclVDZEd5OXdXRFhUcE9yallZL2RueFloalRUOWtIempRdE5CR3lQdDhLWWVTVwpEZENMMXlGZTJybmErUTVicStVQnlnNTNqbldKcUlEenVlSXdGb1UwMHlxNEZmeERaTGNyYWJJUmYxN3RTeTBrCjV1UmRkUnBIY0xQTWt1MFRoNkRHTWFqT3BkcDBVcjZMYkJSdHY4dktha0YyK2c5dDl4YnhCVGFKVUgzMGxjdmkKQXVyQnRGL0lyRUFpdWtoUGNXOTJpek1XaWc3M0RvdDE1NGNKNVlrMCtlMy9TdFpRbTMrVWFLdmlIT254blRrZwpBcUE5bGJCKzltTDYxSFBZM3lZYndFUjVIUlUyVU96dnlLUFBtdnBtdUVnWE5hRjRmUVp0RmRuSk9IQlMxSWdoCkNSWDdMZ0UyQVRYSkpMbGRYRDlYMy9RQnBSNEtmeTRCSkJyUU93cjM3cmRIQWZNbFV4N3JSMUF1Yzh3UWovKysKckFJM3c1T3JmTjZnUnlOa0xQV2NrVGF6OWJRN01rRGo5RHZvMjBHbjBiQk5jaDJVZzJLbEl3RUNBd0VBQWFOVApNRkV3SFFZRFZSME9CQllFRkFrUjZUaktTWXdSUVd5RFVnQWJKVDBtYzRlSU1COEdBMVVkSXdRWU1CYUFGQWtSCjZUaktTWXdSUVd5RFVnQWJKVDBtYzRlSU1BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUwKQlFBRGdnSUJBQkdGdncweDdJTHVVRHZqVjNBMmJXWklaNGs1cEFGSENJd2FaK1NOd2RJNEVxNzlxakE0RGxpZgpmOEUrRXlpUkYvVVFkZGpORlQzTFBacklOa1M1MGJ5dWI4cXFnUWo0bGYvK0NuMWhkbXlGQUFFNWZtS3BRcHhTClRrcW15eWk0VDlWMm40dUZCK3RmeldKbzA5MGhxR0xZUDdkN2k5U3ZmUlUxYUJnL25hZGhmNHNkTE5YQXJ5VW8KbE5wLzFEZklGN3BQK0M0ZnV6Y2owNHFxVkV1ejFGMGlUQXVsb3NOZmVDcUUza0xlc0JEY3FyMUQrL3hTSk14QwpWQklQbitEZGFMRGlIdEpHN2VhWHh5NHgrbzNDb1Blbk5UcDkxSWdueWl2NlI4M2h6ZTF1VFB0V0g0NnhxdFhhCjVqaWpPRmtIY0R5TVB0dUlCR3UwMEswNVkzbDR5VndzMEthQzRYTGRKMW1jUzIvQmFMWkRqNC9xcGZ2THExT2YKank1dHQ3MXJROWw5TmNNSWxZaFQzQWRSUHdwd1pMeGVmb3lBVk1KeWV4UlJoaXdLU2RHWDIxa1ljeDJxUHNNdwpGR3pjKy9TQjRpTDZmYWNOVmRQNUpnNTJDZnIyWWRMWlVwdWVlK1RqVmVuSkxjeGZjU0hIc3BMeGpQK0NLcnFvClBXS0ovVmtKK1ZORzhPOEJkKytPelVrTW1vaHVOdGdKeS9laUE5ZloyZnhHclBWTTU5NWdkd1Bud2NkeUdyTmwKbTdMTjVEaXlmTWNTMEc4bUZiUjR4aWhBMzFsYUhEV3pSL3p3dmowMWdrVXhkYnZNQVA5L2UyNGNhMGhQMVdzKwo2UkNmZURvT3VWYUhvME0rbThMaTVNWXJWdDJZYlYwd2lrbU1Fb0o5d0w4U3NjTU15ZCt5Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K

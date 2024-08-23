@@ -15,7 +15,7 @@ spec:
         port: 8080
   - name: envoy
     image: luksa/kiada-ssl-proxy:0.1
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     ports:
     - name: https
       containerPort: 8443

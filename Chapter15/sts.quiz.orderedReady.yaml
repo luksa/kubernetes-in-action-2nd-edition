@@ -25,7 +25,7 @@ spec:
       containers:
       - name: quiz-api
         image: luksa/quiz-api:0.1
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 8080
@@ -35,7 +35,7 @@ spec:
             path: /healthz/ready
             scheme: HTTP
       - name: mongo
-        image: mongo:5
+        image: mongo:7
         command:
         - mongod
         - --bind_ip

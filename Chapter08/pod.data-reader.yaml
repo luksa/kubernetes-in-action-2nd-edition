@@ -11,7 +11,7 @@ spec:
   containers:
   - name: reader
     image: busybox
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     command:
     - sh
     - -c

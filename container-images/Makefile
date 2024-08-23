@@ -1,31 +1,32 @@
-PREFIX ?= luksa/
+-include ../env
 
-all: image push
+directories := init-demo-0.1 kiada-0.1 kiada-0.2 kiada-0.3 kiada-0.4 \
+ kiada-0.5 kiada-0.6 kiada-0.7 kiada-0.8 kiada-0.9 kiada-ssl-proxy-0.1 \
+ network-connectivity-checker-0.1 node-agent-0.1 quiz-api-0.1 quiz-api-0.2 \
+ quiz-initdb-script-installer-0.1 quote-writer-0.1 static-http-server
+
+all: push
 
 image:
 	@echo "BUILDING ALL IMAGES"
 	@echo "Using image prefix $(PREFIX)"
 	@echo ""
-	PREFIX=$(PREFIX) make --directory kiada-0.1 image
-	PREFIX=$(PREFIX) make --directory kiada-0.2 image
-	PREFIX=$(PREFIX) make --directory kiada-0.3 image
-	PREFIX=$(PREFIX) make --directory kiada-0.4 image
-	PREFIX=$(PREFIX) make --directory kiada-1.0 image
-	PREFIX=$(PREFIX) make --directory kiada-ssl-proxy-0.1 image
-	PREFIX=$(PREFIX) make --directory init-demo-0.1 image
-	PREFIX=$(PREFIX) make --directory quote-writer-0.1 image
-	PREFIX=$(PREFIX) make --directory network-connectivity-checker-0.1 image
+	for directory in $(directories) ; do \
+		PREFIX=$(PREFIX) make --directory $$directory image ; \
+	done
 
 push:
 	@echo "PUSHING ALL IMAGES"
 	@echo "Using image prefix $(PREFIX)"
 	@echo ""
-	PREFIX=$(PREFIX) make --directory kiada-0.1 push
-	PREFIX=$(PREFIX) make --directory kiada-0.2 push
-	PREFIX=$(PREFIX) make --directory kiada-0.3 push
-	PREFIX=$(PREFIX) make --directory kiada-0.4 push
-	PREFIX=$(PREFIX) make --directory kiada-1.0 push
-	PREFIX=$(PREFIX) make --directory kiada-ssl-proxy-0.1 push
-	PREFIX=$(PREFIX) make --directory init-demo-0.1 push
-	PREFIX=$(PREFIX) make --directory quote-writer-0.1 push
-	PREFIX=$(PREFIX) make --directory network-connectivity-checker-0.1 push
+	for directory in $(directories) ; do \
+		PREFIX=$(PREFIX) make --directory $$directory push ; \
+	done
+
+kind-load:
+	@echo "PUSHING ALL IMAGES TO KIND CLUSTER"
+	@echo "Using image prefix $(PREFIX)"
+	@echo ""
+	for directory in $(directories) ; do \
+		PREFIX=$(PREFIX) make --directory $$directory kind-load ; \
+	done

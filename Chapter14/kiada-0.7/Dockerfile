@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:22-alpine
 COPY app.js /app.js
 COPY html/ /html
 

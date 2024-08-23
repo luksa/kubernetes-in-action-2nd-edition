@@ -6,7 +6,7 @@ spec:
   containers:
   - name: kiada
     image: luksa/kiada:0.2
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     stdin: true
     tty: true
     ports:

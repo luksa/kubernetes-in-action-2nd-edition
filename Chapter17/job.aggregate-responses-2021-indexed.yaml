@@ -18,7 +18,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: updater
-        image: mongo:5
+        image: mongo:7
         env:
         - name: YEAR
           value: "2021"
@@ -76,7 +76,7 @@ data:
       },
       {
         $group: {
-          _id: { $dateTrunc: { date: "$timestamp", unit: "day" } },
+          _id: { $dateFromString: { dateString: { $dateToString: { format: '%Y-%m-%dT%H:00:00+00:00', date: '$timestamp' } } } },
           totalCount: { $sum: 1 },
           correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
           incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },

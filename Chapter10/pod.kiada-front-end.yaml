@@ -43,10 +43,11 @@ spec:
     - name: http
       containerPort: 8080
   - name: envoy
-    image: envoyproxy/envoy:v1.14.1
+    image: envoyproxy/envoy:v1.31-latest
+    command: [ "envoy", "-c", "/etc/config/envoy.yaml" ]
     volumeMounts:
     - name: etc-envoy
-      mountPath: /etc/envoy
+      mountPath: /etc/config
       readOnly: true
     ports:
     - name: https
