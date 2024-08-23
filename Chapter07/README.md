@@ -2,6 +2,8 @@
 
 ## Chapter 7. Mounting storage volumes into the Pod's containers
 
+### Deploying resources
+- [../scripts/apply.sh](../scripts/apply.sh) - helper script to deploy resource yaml files and update prefix values.  Resource files should be specified as arguments.
 
 ### Fortune pod with or without a volume
 - [fortune-no-volume.yaml](fortune-no-volume.yaml) - YAML manifest file for the `fortune-no-volume` pod

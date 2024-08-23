@@ -1,0 +1,5 @@
+PREFIX=prefix/
+MONGO_IMAGE=mongo:7
+
+export PREFIX
+export MONGO_IMAGE

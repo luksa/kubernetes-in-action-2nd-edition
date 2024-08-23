@@ -7,10 +7,10 @@ WORKDIR /src
 ENV CGO_ENABLED=0
 COPY go.* .
 RUN --mount=type=cache,target=/go/pkg/mod \
-    go mod download
+go mod download
 
 # 2. Create the build image
-FROM base as build
+FROM base AS build
 ARG TARGETOS
 ARG TARGETARCH
 RUN --mount=target=. \
@@ -28,4 +28,4 @@ FROM scratch AS bin-windows
 COPY --from=build /out/node-agent /node-agent.exe
 
 #
-FROM bin-${TARGETOS} as bin
+FROM bin-${TARGETOS} AS bin

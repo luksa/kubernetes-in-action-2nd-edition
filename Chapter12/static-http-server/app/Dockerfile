@@ -10,7 +10,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
 # 2. Create the build image
-FROM base as build
+FROM base AS build
 ARG TARGETOS
 ARG TARGETARCH
 RUN --mount=target=. \
@@ -27,4 +27,4 @@ FROM bin-unix AS bin-darwin
 FROM scratch AS bin-windows
 COPY --from=build /out/static-http-server /static-http-server.exe
 
-FROM bin-${TARGETOS} as bin
+FROM bin-${TARGETOS} AS bin

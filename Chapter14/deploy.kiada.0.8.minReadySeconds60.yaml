@@ -28,7 +28,7 @@ spec:
       containers:
       - name: kiada
         image: luksa/kiada:0.8
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: FAIL_AFTER_SECONDS
           value: "30"
@@ -64,10 +64,11 @@ spec:
             path: /healthz/ready
             scheme: HTTP
       - name: envoy
-        image: envoyproxy/envoy:v1.14.1
+        image: envoyproxy/envoy:v1.31-latest
+        command: [ "envoy", "-c", "/etc/config/envoy.yaml" ]
         volumeMounts:
         - name: etc-envoy
-          mountPath: /etc/envoy
+          mountPath: /etc/config
           readOnly: true
         ports:
         - name: https

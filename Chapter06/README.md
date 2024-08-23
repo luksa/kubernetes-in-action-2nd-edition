@@ -2,21 +2,21 @@
 
 ## Chapter 6. Managing the lifecycle of the Pod's containers
 
+### Deploying resources
+- [../scripts/apply.sh](../scripts/apply.sh) - helper script to deploy resource yaml files and update prefix values.  Resource files should be specified as arguments.
 
 ### Adding a liveness probe
-- [kiada-liveness.yaml](kiada-liveness.yaml) - YAML manifest file for the `kiada-liveness` pod
-- [kiada-liveness-tcp-socket.yaml](kiada-liveness-tcp-socket.yaml) - YAML manifest file for the `kiada-liveness-tcp-socket` pod
-- [kiada-liveness-exec.yaml](kiada-liveness-exec.yaml) - YAML manifest file for the `kiada-liveness-exec` pod
+- [pod.kiada-liveness.yaml](pod.kiada-liveness.yaml) - YAML manifest file for the `kiada-liveness` pod
 
 ### Adding a startup probe
-- [kiada-startup-probe.yaml](kiada-startup-probe.yaml) - YAML manifest file for the `kiada-startup-probe` pod
+- [pod.kiada-startup-probe.yaml](pod.kiada-startup-probe.yaml) - YAML manifest file for the `kiada-startup-probe` pod
 
 ### Adding lifecycle hooks
-- [quote-poststart.pod.yaml](quote-poststart.pod.yaml) - YAML manifest file for the `quote-poststart` pod
-- [quote-prestop.pod.yaml](quote-prestop.pod.yaml) - YAML manifest file for the `quote-prestop` pod
+- [pod.quote-poststart.yaml](pod.quote-poststart.yaml) - YAML manifest file for the `quote-poststart` pod
+- [pod.quote-prestop.yaml](pod.quote-prestop.yaml) - YAML manifest file for the `quote-prestop` pod
 
 ### Setting the termination grace period
-- [kiada-ssl-shortgraceperiod.yaml](kiada-ssl-shortgraceperiod.yaml) - YAML manifest file for the `kiada-ssl-shortgraceperiod` pod
+- [pod.kiada-ssl-shortgraceperiod.yaml](pod.kiada-ssl-shortgraceperiod.yaml) - YAML manifest file for the `kiada-ssl-shortgraceperiod` pod
 
 ### Handling the TERM signal in the Kiada application
 Building the **`kiada:1.1`** image:

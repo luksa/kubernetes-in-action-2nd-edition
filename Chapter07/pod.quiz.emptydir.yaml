@@ -9,12 +9,12 @@ spec:
   containers:
   - name: quiz-api
     image: luksa/quiz-api:0.1
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     ports:
     - name: http
       containerPort: 8080
   - name: mongo
-    image: mongo:5
+    image: mongo:7
     volumeMounts:
     - name: quiz-data
       mountPath: /data/db

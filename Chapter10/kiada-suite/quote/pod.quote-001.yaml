@@ -12,7 +12,7 @@ spec:
   containers:
   - name: quote-writer
     image: luksa/quote-writer:0.1
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     volumeMounts:
     - name: shared
       mountPath: /var/local/output

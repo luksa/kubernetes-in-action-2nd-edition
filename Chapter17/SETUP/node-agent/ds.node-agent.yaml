@@ -20,7 +20,7 @@ spec:
       containers:
       - name: node-agent
         image: luksa/node-agent:0.1
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args:
         - --listen-address
         - :80
