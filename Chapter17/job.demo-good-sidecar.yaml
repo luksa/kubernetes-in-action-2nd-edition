@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-good-sidecar
+spec:
+  completions: 1
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+      - name: sidecar
+        restartPolicy: Always
+        image: busybox
+        command:
+        - sh
+        - -c
+        - "while true; do echo 'Sidecar still running...'; sleep 5; done"
+      containers:
+      - name: demo
+        image: busybox
+        command: ["sleep", "20"]
+

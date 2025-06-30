@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    background-color: #586256;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 580px;
+    height: 100%;
+    background-color: white;
+}
+
+#cover {
+    position: absolute;
+    top: 0;
+    right: 80px;
+}
+
+#content {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    max-width: calc(100% - 800px);
+}
+
+.bubble {
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 10px 10px 20px 0px #333333;
+}
+
+.bubble h1 {
+    margin-top: 0;
+    font-size: 1.6em;
+}

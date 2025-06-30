@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quiz
+spec:
+  volumes:
+  - name: initdb
+    image:
+      reference: luksa/quiz-questions:0.1
+      pullPolicy: IfNotPresent
+  - name: quiz-data
+    emptyDir: {}
+  containers:
+  - name: quiz-api
+    image: luksa/quiz-api:0.1
+    imagePullPolicy: IfNotPresent
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: mongo
+    image: mongo:7
+    volumeMounts:
+    - name: quiz-data
+      mountPath: /data/db
+    - name: initdb
+      mountPath: /docker-entrypoint-initdb.d/
+      readOnly: true
+
