@@ -1,0 +1,3 @@
+This is a text file with multiple lines
+that you can use to test the creation of
+a ConfigMap in Kubernetes.

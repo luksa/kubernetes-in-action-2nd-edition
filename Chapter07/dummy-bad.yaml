@@ -1,0 +1,3 @@
+dummy: 
+  name: dummy-bad.yaml
+    note: This file has a space at the end of the first line.
