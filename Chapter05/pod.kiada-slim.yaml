@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada-slim
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.1-slim
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8080

@@ -1,4 +1,4 @@
-PREFIX=prefix/
+PREFIX=luksa/
 MONGO_IMAGE=mongo:7
 
 export PREFIX
