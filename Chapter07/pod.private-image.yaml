@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-image
+spec:
+  imagePullSecrets:
+  - name: pull-secret
+  containers:
+  - name: private
+    image: docker.io/me/my-private-image
+
+
