@@ -4,7 +4,7 @@ HOST ?= localhost
 PORT ?= 8080
 
 deploy:
-	kubectl create configmap kiada-envoy-config --from-file=../../Chapter09/envoy.yaml || echo "Config map exists"
+	kubectl create configmap kiada-ssl-config --from-file=../../Chapter09/envoy.yaml || echo "Config map exists"
 	kubectl create secret tls kiada-tls --cert ../../Chapter09/example-com.crt --key ../../Chapter09/example-com.key || echo "Secret exists"
 	kubectl delete po kiada-ssl --force --grace-period 0
 	kubectl apply -f pod.kiada-ssl.yaml

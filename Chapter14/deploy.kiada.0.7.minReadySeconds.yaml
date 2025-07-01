@@ -78,7 +78,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: kiada-envoy-config
+              name: kiada-ssl-config
           - secret:
               name: kiada-tls
               items:

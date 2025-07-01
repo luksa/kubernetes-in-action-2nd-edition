@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: kiada-config
 data:
-  status-message: This status message is set in the kiada-config config map
+  status-message: "This status message is set in the kiada-config config map"

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: kiada-envoy-config
+  name: kiada-ssl-config
   labels:
     app: kiada
 binaryData:

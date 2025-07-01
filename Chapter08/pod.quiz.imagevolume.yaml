@@ -6,8 +6,8 @@ spec:
   volumes:
   - name: initdb
     image:
-      reference: luksa/quiz-questions:0.1
-      pullPolicy: IfNotPresent
+      reference: luksa/quiz-questions:latest
+      pullPolicy: Always
   - name: quiz-data
     emptyDir: {}
   containers:

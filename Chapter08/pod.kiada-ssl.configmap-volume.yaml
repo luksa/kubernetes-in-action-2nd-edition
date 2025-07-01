@@ -6,7 +6,7 @@ spec:
   volumes:
   - name: envoy-config
     configMap:
-      name: kiada-envoy-config
+      name: kiada-ssl-config
   containers:
   - name: kiada
     image: luksa/kiada:0.4

@@ -9,7 +9,7 @@ spec:
     projected:
       sources:
       - configMap:
-          name: kiada-envoy-config
+          name: kiada-ssl-config
       - secret:
           name: kiada-tls
           items:
@@ -57,7 +57,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiada-envoy-config
+  name: kiada-ssl-config
   namespace: kiada-test2
 binaryData:
   dummy.bin: n2VW39IEkyQ6Jxo+rdo5J06Vi7cz5XxZzkPOtN7MOGyXxVzWv07vUz8bxY5h4njJfZixwhPwoGepLnGZdRGw1qgpFB9HpyLsqVZ6jAwjjHD0afxxwEjb6+wofmgGmS1E3U9BZScMPZGWJK7RGzZmQOeJeDPIt/1tBvQYwzMc8wu6owky4Ri3rOY9PlFnp5VOTzvBZadW8scbqtntJeWCtJFoS0AH2y4ZFyJPJ0l0V3JpY1qunnz60CyAMO9v1DgB2PUQUG/1HH89bpzf2OyMvHUJmOTIDZOh3D7aAEuYQ/6hU0uQsQ/K7Xx/nM9TA0RzEzuh8RBoXdkAvQPP5jk7yM2DqxG/CiHVp+7CDRFWgEN2GFd76RfO+pIoOFbD1Xm4yE/JBljOA9ztwm865m3A4l2ToT2p7ZWHKmdZe8pXz4ZwIGBYDUHHNVQW5UUnf0Jbd9UR8GJ//gmbxLfVxjC/lMSWGUqCpYO4YdBPjXQGM1xdxE+YP3Pzso6Z4rw27RJu5KEc2yPMxFY9dpFyVufP81kS19glNiQq+LM4B9EFPrNW1hqi+1Tb8ni+aFkriH1YuvHepIH0Px/ifFLgn+yDgwDs4UfMru2j4t5zAftUa0i6m3sH5adKcx4aCXYN9ijvEvjRmkcB/VJU6Zbd65UZVgD1Nwt2ZCrkoEdqO3Oe1/o=

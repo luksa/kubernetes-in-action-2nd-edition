@@ -14,7 +14,7 @@ spec:
         path: example-com.key
   - name: envoy-config
     configMap:
-      name: kiada-envoy-config
+      name: kiada-ssl-config
       items:
       - key: envoy.yaml
         path: envoy.yaml
