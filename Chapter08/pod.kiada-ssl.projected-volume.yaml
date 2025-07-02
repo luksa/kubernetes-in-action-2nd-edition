@@ -3,22 +3,25 @@ kind: Pod
 metadata:
   name: kiada-ssl
 spec:
+  securityContext:
+    fsGroup: 101
   volumes:
   - name: etc-envoy
     projected:
       sources:
       - configMap:
           name: kiada-ssl-config
+          items:
+          - key: envoy.yaml
+            path: envoy.yaml
       - secret:
           name: kiada-tls
           items:
           - key: tls.crt
-            path: example-com.crt
+            path: certs/example-com.crt
           - key: tls.key
-            path: example-com.key
-            mode: 0660
-  securityContext:
-    fsGroup: 101
+            path: certs/example-com.key
+            mode: 0640
   containers:
   - name: kiada
     image: luksa/kiada:0.4
@@ -39,15 +42,20 @@ spec:
       valueFrom:
         fieldRef:
           fieldPath: status.hostIP
+    - name: INITIAL_STATUS_MESSAGE
+      valueFrom:
+        configMapKeyRef:
+          name: kiada-ssl-config
+          key: status-message
+          optional: true
     ports:
     - name: http
       containerPort: 8080
   - name: envoy
     image: envoyproxy/envoy:v1.31-latest
-    command: [ "envoy", "-c", "/etc/config/envoy.yaml" ]
     volumeMounts:
     - name: etc-envoy
-      mountPath: /etc/config
+      mountPath: /etc/envoy
       readOnly: true
     ports:
     - name: https
