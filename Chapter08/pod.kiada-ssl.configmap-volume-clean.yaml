@@ -7,6 +7,9 @@ spec:
   - name: envoy-config
     configMap:
       name: kiada-ssl-config
+      items:
+      - key: envoy.yaml
+        path: envoy.yaml
   containers:
   - name: kiada
     image: luksa/kiada:0.4
