@@ -28,13 +28,13 @@ The code archive is organized per chapter. You'll find a description of the file
 
 6\) [Managing the Pod lifecycle](Chapter06/)
 
-7\) [Configuration via ConfigMaps, Secrets, and the Downward API](Chapter07/)
+7\) [Organizing objects using Namespaces and Labels](Chapter07/)
 
-8\) [Attaching storage volumes to Pods](Chapter08/)
+8\) [Configuration via ConfigMaps, Secrets, and the Downward API](Chapter08/)
 
-9\) [Persisting data in PersistentVolumes](Chapter09/)
+9\) [Attaching storage volumes to Pods](Chapter09/)
 
-10\) [Organizing objects using Namespaces and Labels](Chapter10/)
+10\) [Persisting data in PersistentVolumes](Chapter10/)
 
 11\) [Exposing Pods with Services](Chapter11/)
 
