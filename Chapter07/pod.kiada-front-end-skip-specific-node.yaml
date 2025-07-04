@@ -1,10 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kiada-front-end
+  name: kiada-front-end-skip-specific-node
 spec:
-  nodeSelector:
-    node-role: front-end
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchFields:
+          - key: metadata.name
+            operator: NotIn
+            values:
+            - gke-kiada-default-pool-3360ed58-cwjj
   containers:
   - name: kiada
     image: luksa/kiada:0.2

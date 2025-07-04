@@ -9,9 +9,6 @@ spec:
   volumes:
   - name: initdb
     emptyDir: {}
-  - name: quiz-data
-    persistentVolumeClaim:
-      claimName: quiz-data
   initContainers:
   - name: installer
     image: luksa/quiz-initdb-script-installer:0.1
@@ -29,8 +26,6 @@ spec:
   - name: mongo
     image: mongo:7
     volumeMounts:
-    - name: quiz-data
-      mountPath: /data/db
     - name: initdb
       mountPath: /docker-entrypoint-initdb.d/
       readOnly: true
