@@ -6,53 +6,17 @@ metadata:
     app: kiada
     rel: stable
 spec:
-  volumes:
-  - name: etc-envoy
-    projected:
-      sources:
-      - configMap:
-          name: kiada-ssl-config
-      - secret:
-          name: kiada-tls
-          items:
-          - key: tls.crt
-            path: example-com.crt
-          - key: tls.key
-            path: example-com.key
-            mode: 0600
   containers:
   - name: kiada
-    image: luksa/kiada:0.4
-    env:
-    - name: POD_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
-    - name: POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-    - name: NODE_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: spec.nodeName
-    - name: NODE_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.hostIP
+    image: luksa/kiada:0.2
+    stdin: true
     ports:
     - name: http
       containerPort: 8080
   - name: envoy
-    image: envoyproxy/envoy:v1.31-latest
-    command: [ "envoy", "-c", "/etc/config/envoy.yaml" ]
-    volumeMounts:
-    - name: etc-envoy
-      mountPath: /etc/config
-      readOnly: true
+    image: luksa/kiada-ssl-proxy:0.1
     ports:
     - name: https
       containerPort: 8443
     - name: admin
       containerPort: 9901
-
