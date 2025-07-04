@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-emptydir-inline
+spec:
+  volumes:
+  - name: my-volume
+    emptyDir: {}
+  initContainers:
+  - name: my-volume-initializer
+    image: busybox
+    command:
+    - sh
+    - -c
+    - |
+      cat <<EOF > /mnt/my-volume/my-file.txt
+      line 1: This is a multi-line file
+      line 2: Written from an init container
+      line 3: Defined inline in the Pod manifest
+      EOF
+    volumeMounts:
+    - name: my-volume
+      mountPath: /mnt/my-volume
+  containers:
+  - name: main
+    image: busybox
+    command: ["sh", "-c", "cat /app/my-file.txt && sleep infinity"]
+    volumeMounts:
+    - name: my-volume
+      mountPath: /app
