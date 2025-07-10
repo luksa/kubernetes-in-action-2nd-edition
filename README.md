@@ -12,44 +12,53 @@ You can take a [quick look online](https://livebook.manning.com/book/kubernetes-
 
 The code archive is organized per chapter. You'll find a description of the files by following the links below.  
 
-### Part I: First time on a boat: _Introduction to Kubernetes_
+### Part I: Getting Started with Kubernetes
 
 1\) Introducing Kubernetes (no code files)
 
-2\) [Understanding containers](Chapter02/)
+2\) [Understanding Containers and Containerized Applications](Chapter02/)
 
-3\) [Deploying your first application](Chapter03/)
+3\) [Deploying Your First Application on Kubernetes](Chapter03/)
 
-### Part II: Learning the ropes: _Kubernetes API objects_
+4\) Navigating the Kubernetes API and Object Model (no code files)
 
-4\) Introducing Kubernetes API objects (no code files)
+### Part II: Running Applications on Kubernetes
 
-5\) [Running workloads in Pods](Chapter05/)
+5\) [Running Applications with Pods](Chapter05/)
 
-6\) [Managing the Pod lifecycle](Chapter06/)
+6\) [Managing the Pod Lifecycle and Container Health](Chapter06/)
 
-7\) [Organizing objects using Namespaces and Labels](Chapter07/)
+7\) [ Organizing Pods and Other Resources using Namespaces and Labels](Chapter07/)
 
-8\) [Configuration via ConfigMaps, Secrets, and the Downward API](Chapter08/)
+### Part III: Managing Application Configuration and Storage
 
-9\) [Attaching storage volumes to Pods](Chapter09/)
+8\) [Configuring Applications with ConfigMaps and Secrets](Chapter08/)
 
-10\) [Persisting data in PersistentVolumes](Chapter10/)
+9\) [Adding Volumes for Storage, Configuration, and Metadata](Chapter09/)
+
+10\) [Persisting Data with PersistentVolumes](Chapter10/)
+
+### Part IV: Connecting and Exposing Applications
 
 11\) [Exposing Pods with Services](Chapter11/)
 
-12\) [Exposing services with Ingress](Chapter12/)
+12\) [Using Ingress to Route Traffic to Services](Chapter12/)
 
-13\) [Replicating Pods with ReplicaSets](Chapter14/)
+13\) [Routing Traffic using the Gateway API](Chapter13/)
 
-14\) [Managing Pods with Deployments](Chapter15/)
+### Part V: Managing Applications with Controllers
 
-15\) [Deploying stateful workloads with StatefulSets](Chapter16/)
+14\) [Scaling and Maintaining Pods with ReplicaSets](Chapter14/)
 
-16\) [Deploying node agents and daemons with DaemonSets](Chapter17/)
+15\) [Automating Application Updates with Deployments](Chapter15/)
 
-17\) [Running batch workloads with Jobs and CronJobs](Chapter18/)
+16\) [Handling Stateful Applications with StatefulSets](Chapter16/)
+
+17\) [Deploying Per-Node Workloads with DaemonSets](Chapter17/)
+
+18\) [Batch Processing with Jobs and CronJobs](Chapter18/)
 
 ## Contributing
 
 If you'd like to contribute a code improvement or a bug fix, please submit a pull request in this GitHub repository. Note that some files are intentionally incomplete and may even contain intentional errors for demonstration purposes.   
+
