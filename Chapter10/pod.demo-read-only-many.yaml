@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: demo-read-only-many-
+  labels:
+    app: demo-read-only-many
+spec:
+  volumes:
+  - name: volume
+    persistentVolumeClaim:
+      claimName: demo-read-only-many
+      readOnly: true
+  containers:
+  - name: main
+    image: busybox
+    command:
+    - sh
+    - -c
+    - |
+      echo "I can read from the volume; these are its files:" ;
+      ls /mnt/volume ;
+      sleep infinity
+    volumeMounts:
+      - name: volume
+        mountPath: /mnt/volume
+  terminationGracePeriodSeconds: 0

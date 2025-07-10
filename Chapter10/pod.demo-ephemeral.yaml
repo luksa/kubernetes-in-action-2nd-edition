@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-ephemeral
+spec:
+  volumes:
+  - name: my-volume
+    ephemeral:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+  containers:
+  - name: main
+    image: busybox
+    command:
+    - sh
+    - -c
+    - | 
+      echo "This is a demo of a Pod using an ephemeral volume." ;
+      touch /mnt/ephemeral/file-created-by-$HOSTNAME.txt ;
+      sleep infinity
+    volumeMounts:
+    - mountPath: /mnt/ephemeral
+      name: my-volume
+  terminationGracePeriodSeconds: 0

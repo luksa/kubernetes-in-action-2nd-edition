@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-read-write-many
+  labels:
+    app: demo-read-write-many
+spec:
+  storageClassName: standard-rwx
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+  - ReadWriteMany

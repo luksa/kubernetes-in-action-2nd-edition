@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: demo-read-write-many-
+  labels:
+    app: demo-read-write-many
+spec:
+  volumes:
+  - name: volume
+    persistentVolumeClaim:
+      claimName: demo-read-write-many
+  containers:
+  - name: main
+    image: busybox
+    command:
+    - sh
+    - -c
+    - |
+      echo "I can read from the volume; these are its files:" ;
+      ls /mnt/volume ;
+      echo ;
+      echo "Created by pod $HOSTNAME." > /mnt/volume/$HOSTNAME.txt &&
+      echo "I can also write to the volume." &&
+      echo "Wrote file /mnt/volume/$HOSTNAME" ;
+      sleep infinity
+    volumeMounts:
+      - name: volume
+        mountPath: /mnt/volume
+  terminationGracePeriodSeconds: 0
