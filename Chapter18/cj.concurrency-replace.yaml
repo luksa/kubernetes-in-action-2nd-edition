@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: concurrency-demo-replace
+spec:
+  concurrencyPolicy: Replace
+  schedule: "* * * * *"
+  jobTemplate:
+    metadata:
+      labels:
+        app: concurrency-demo-replace
+    spec:
+      template:
+        metadata:
+          labels:
+            app: concurrency-demo-replace
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: updater
+            image: busybox
+            command:
+            - sleep
+            - '200'

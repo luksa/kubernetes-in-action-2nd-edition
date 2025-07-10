@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aggregate-responses
+  labels:
+    app: aggregate-responses
+data:
+  script.js: |
+    var year = parseInt(process.env["YEAR"]);
+    var month = parseInt(process.env["MONTH"]);
+    
+    var dateFrom = new Date(year + "-" + month + "-1Z");
+    var dateTo = new Date(dateFrom);
+    dateTo.setMonth(dateTo.getMonth() + 1);
+    
+    print("Processing quiz responses - in month " + month);
+    print("==============================================");
+    print();
+    print("Year:  " + year);
+    print("Month: " + month);
+    print();
+    print("Query range:");
+    print("  From: " + dateFrom);
+    print("  To:   " + dateTo);
+    print();
+    print("Results:")
+    
+    var cursor = db.responses.aggregate(
+      {
+        $match: {
+          timestamp: { $gte: dateFrom, $lt: dateTo }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateFromString: { dateString: { $dateToString: { format: '%Y-%m-%dT%H:00:00+00:00', date: '$timestamp' } } } },
+          totalCount: { $sum: 1 },
+          correctCount: { $sum: { $cond: { if: "$correct", then: 1, else: 0 } } },
+          incorrectCount: { $sum: { $cond: { if: "$correct", then: 0, else: 1 } } },
+        }
+      }
+    );
+    
+    var matched = 0;
+    var inserted = 0;
+    var updated = 0;
+    if (cursor.hasNext()) {
+      while (cursor.hasNext()) {
+        var result = cursor.next();
+        print("  " + JSON.stringify(result));
+    
+        var writeResult = db.statistics.replaceOne(
+            {_id: result._id},
+            result,
+            { upsert: true }
+        );
+        matched += writeResult.matchedCount;
+        inserted += writeResult.upsertedCount;
+        updated += writeResult.modifiedCount;
+      }
+      cursor.close();
+    
+      print();
+      print("Matched: " + matched + "; Updated: " + updated + "; Inserted: " + inserted); 
+    } else {
+      print("  No responses found.");
+    }
+    
+    var sleepSeconds = Math.floor(30 + Math.random() * 30); 
+    print();
+    print("Waiting " + sleepSeconds + "s to simulate long-running task.");
+    sleep(sleepSeconds * 1000);
+    
+    print();
+    print("Done.");

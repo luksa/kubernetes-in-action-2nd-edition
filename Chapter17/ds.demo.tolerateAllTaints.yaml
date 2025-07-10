@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: demo
+spec:
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      tolerations:
+      - operator: Exists
+      containers:
+      - name: demo
+        image: busybox
+        command:
+        - sleep
+        - infinity

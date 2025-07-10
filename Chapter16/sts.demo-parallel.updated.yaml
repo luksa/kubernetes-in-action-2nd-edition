@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demo-parallel
+spec:
+  podManagementPolicy: Parallel
+  serviceName: demo-parallel
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-parallel
+  template:
+    metadata:
+      labels:
+        app: demo-parallel
+        ver: new
+    spec:
+      containers:
+      - name: demo-parallel
+        image: busybox
+        command:
+        - sh
+        - -c
+        - 'touch /tmp/ready; sleep infinity'
+        readinessProbe:
+          periodSeconds: 1
+          failureThreshold: 1
+          exec:
+            command:
+            - sh
+            - -c
+            - 'test -f /tmp/ready || (echo "not ready, because /tmp/ready is missing" && false)'
+      terminationGracePeriodSeconds: 1

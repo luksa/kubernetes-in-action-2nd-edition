@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-always-fails
+spec:
+  completions: 10
+  parallelism: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: demo
+        image: busybox
+        command:
+        - 'false'

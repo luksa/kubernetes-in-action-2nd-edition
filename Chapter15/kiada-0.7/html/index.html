@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kubernetes in Action Demo Application v{{version}}</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script type="application/javascript">
+        const quoteURL = '{{quoteURL}}';
+        const quizURL = '{{quizURL}}';
+    </script>
+    <script src="javascript.js"></script>
+</head>
+<body>
+<div id="background"></div>
+<div id="cover"><img src="cover.png" alt="Kubernetes in Action Book Cover"></div>
+
+<div id="content">
+    <div class="bubble" style="background-color: #f6f34e;">
+        <div id="quote">
+            <h1>Tip of the Minute</h1>
+            <div id="quote-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+        </div>
+    </div>
+    <div class="bubble" style="background-color: #f6f34e;">
+        <div id="quiz">
+            <h1>Pop Quiz</h1>
+            <div id="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor?</div>
+            <form name="quiz">
+                <input type="hidden" name="questionId" id="questionId">
+                <ol id="answers">
+                    <li id="answer-{index}-li" class="selectable"><input type="radio" name="answer" id="answer-{index}" value="{index}" onchange="submitAnswer()"><label for="answer-{index}">{text}</label></li>
+<!--                    <li id="answer-0-li" class="selectable"><input type="radio" name="answer" id="answer-0" value="{index}"><label for="answer-{index}">unselected answer</label></li>-->
+<!--                    <li id="answer-1-li" class="selectable"><input type="radio" name="answer" id="answer-1" value="{index}"><label for="answer-{index}">multiline answer lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.</label></li>-->
+<!--                    <li id="answer-2-li"><input type="radio" name="answer" id="answer-2" value="{index}" disabled><label for="answer-{index}">disabled answer</label></li>-->
+<!--                    <li id="answer-3-li" class="correct-answer"><input type="radio" name="answer" id="answer-3" value="{index}"><label for="answer-{index}">correct answer lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.</label></li>-->
+<!--                    <li id="answer-4-li" class="incorrect-answer"><input type="radio" name="answer" id="answer-4" value="{index}"><label for="answer-{index}">incorrect answer</label></li>-->
+                </ol>
+                <input type="button" id="next-button" value="Next question &#128898;" onclick="showNextQuestion()">
+            </form>
+        </div>
+    </div>
+    <div id="links">
+        <p><b>Links related to this book:</b></p>
+        <ul>
+            <li><a href="http://kubernetes-in-action.com/book">The book's web page on the publisher's web site</a></li>
+            <li><a href="http://kubernetes-in-action.com/livebook">The on-line version of the book</a></li>
+            <li><a href="http://kubernetes-in-action.com/code">The book's code repository</a></li>
+            <li><a href="https://twitter.com/markoluksa">The author's twitter profile</a></li>
+        </ul>
+    </div>
+    <div id="request-info">
+        <p>Request processed by <b>Kiada {{version}}</b> running in pod <b>{{podName}}</b> on node <b>{{nodeName}}</b>.<br>
+            Pod hostname: {{hostname}}; Pod IP: {{podIP}}; Node IP: {{nodeIP}}; Client IP: {{clientIP}}</p>
+        <p>{{statusMessage}}</p>
+        <p>The text version of this content is available at <a href="{{baseURL}}/text">/text</a></p>
+    </div>
+
+    <div id="error-popups">
+        <div class="error-popup fade-in">
+            <p>{message}</p>
+        </div>
+    </div>
+</div>
+
+<div id="version-info">
+    <div class="version-info-box" id="html-version-box" style="background-color: #f6f34e;">
+        <div class="version-info-head">HTML</div>
+        <div class="version-info-version" id="html-version">v{{version}}</div>
+    </div>
+    <div class="version-info-box" id="css-version-box">
+        <div class="version-info-head">CSS</div>
+        <div class="version-info-version" id="css-version"></div>
+    </div>
+    <div class="version-info-box" id="js-version-box">
+        <div class="version-info-head">JS</div>
+        <div class="version-info-version" id="js-version"></div>
+    </div>
+    <div class="version-info-box" id="img-version-box" style="visibility: hidden;">
+        <div class="version-info-head">IMG</div>
+        <div class="version-info-version" id="img-version"></div>
+    </div>
+</div>
+
+</body>
+</html>

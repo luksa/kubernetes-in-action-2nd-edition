@@ -1,0 +1,23 @@
+KUBERNETES IN ACTION DEMO APPLICATION v{{version}}
+
+==== TIP OF THE MINUTE
+{{quote}}
+
+==== POP QUIZ
+{{quizQuestion}}
+{{quizAnswers}}
+Submit your answer to {{baseURL}}/question/{{quizQuestionId}}/answers/<index of answer> using the POST method.
+
+==== Links related to this book
+- http://kubernetes-in-action.com/book - The book's web page on the publisher's web site
+- http://kubernetes-in-action.com/livebook - The on-line version of the book
+- http://kubernetes-in-action.com/code - The book's code repository
+- https://twitter.com/markoluksa - The author's twitter profile
+
+
+==== REQUEST INFO
+Request processed by Kiada {{version}} running in pod "{{podName}}" on node "{{nodeName}}".
+Pod hostname: {{hostname}}; Pod IP: {{podIP}}; Node IP: {{nodeIP}}; Client IP: {{clientIP}}
+{{statusMessage}}
+
+HTML version of this content is available at {{baseURL}}/html

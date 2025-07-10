@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: filestore
+provisioner: filestore.csi.storage.gke.io
+parameters:
+  tier: STANDARD
+  location: eu-west3-c  # Change to your region/zone
+  network: default
+volumeBindingMode: Immediate

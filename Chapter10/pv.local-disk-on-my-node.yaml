@@ -1,0 +1,21 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: local-disk-on-my-node
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local
+  capacity:
+    storage: 10Gi
+  local:
+    path: /tmp/my-disk
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - gke-kiada-new-pool-da37c122-334g  # change this to the name of the node with the disk
+

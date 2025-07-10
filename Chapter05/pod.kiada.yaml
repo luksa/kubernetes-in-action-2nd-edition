@@ -1,1 +1,11 @@
-../Chapter02/pod.kiada.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kiada
+spec:
+  containers:
+  - name: kiada
+    image: luksa/kiada:0.1
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8080

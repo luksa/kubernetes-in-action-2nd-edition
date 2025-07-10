@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: quiz-data-from-snapshot
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  accessModes:
+  - ReadWriteOncePod
+  dataSourceRef:
+    apiGroup: snapshot.storage.k8s.io
+    kind: VolumeSnapshot
+    name: quiz-data-1
+

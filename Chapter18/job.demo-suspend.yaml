@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-suspend
+spec:
+  suspend: true
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: demo
+        image: busybox
+        command:
+        - sleep
+        - "60"
+

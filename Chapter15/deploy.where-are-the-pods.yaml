@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: where-are-the-pods
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: where-are-the-pods
+  template:
+    metadata:
+      labels:
+        app: where-are-the-pods
+    spec:
+      containers:
+      - name: main
+        image: busybox
+        command: ["sleep", "infinity"]
+      serviceAccountName: missing-service-account

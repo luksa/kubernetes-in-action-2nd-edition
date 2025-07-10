@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: demo
+spec:
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        image: busybox
+        command:
+        - sh
+        - -c
+        - 'touch /tmp/ready; sleep infinity'
+        readinessProbe:
+          periodSeconds: 1
+          failureThreshold: 1
+          exec:
+            command:
+            - sh
+            - -c
+            - 'test -f /tmp/ready || (echo "not ready, because /tmp/ready is missing" && false)'

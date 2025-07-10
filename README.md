@@ -40,15 +40,15 @@ The code archive is organized per chapter. You'll find a description of the file
 
 12\) [Exposing services with Ingress](Chapter12/)
 
-13\) [Replicating Pods with ReplicaSets](Chapter13/)
+13\) [Replicating Pods with ReplicaSets](Chapter14/)
 
-14\) [Managing Pods with Deployments](Chapter14/)
+14\) [Managing Pods with Deployments](Chapter15/)
 
-15\) [Deploying stateful workloads with StatefulSets](Chapter15/)
+15\) [Deploying stateful workloads with StatefulSets](Chapter16/)
 
-16\) [Deploying node agents and daemons with DaemonSets](Chapter16/)
+16\) [Deploying node agents and daemons with DaemonSets](Chapter17/)
 
-17\) [Running batch workloads with Jobs and CronJobs](Chapter17/)
+17\) [Running batch workloads with Jobs and CronJobs](Chapter18/)
 
 ## Contributing
 

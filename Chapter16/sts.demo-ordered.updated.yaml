@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demo-ordered
+spec:
+  serviceName: demo-ordered
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-ordered
+  template:
+    metadata:
+      labels:
+        app: demo-ordered
+        ver: new
+    spec:
+      containers:
+      - name: demo-ordered
+        image: busybox
+        command:
+        - sh
+        - -c
+        - 'touch /tmp/ready; sleep infinity'
+        readinessProbe:
+          periodSeconds: 1
+          failureThreshold: 1
+          exec:
+            command:
+            - sh
+            - -c
+            - 'test -f /tmp/ready || (echo "not ready, because /tmp/ready is missing" && false)'
+      terminationGracePeriodSeconds: 1

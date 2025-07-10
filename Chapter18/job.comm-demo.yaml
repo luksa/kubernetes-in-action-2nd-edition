@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: comm-demo
+spec:
+  completionMode: Indexed
+  completions: 2
+  parallelism: 2
+  template:
+    spec:
+      subdomain: demo-service
+      restartPolicy: Never
+      containers:
+      - name: comm-demo
+        image: busybox
+        command:
+        - sleep
+        - "600"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  selector:
+    job-name: comm-demo
+  ports:
+  - name: http
+    port: 80

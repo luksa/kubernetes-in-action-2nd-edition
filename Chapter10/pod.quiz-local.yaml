@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quiz-local
+spec:
+  volumes:
+  - name: quiz-data
+    persistentVolumeClaim:
+      claimName: quiz-data-local
+  containers:
+  - name: quiz-api
+    image: luksa/quiz-api:0.1
+    ports:
+    - name: http
+      containerPort: 8080
+  - name: mongo
+    image: mongo:7
+    volumeMounts:
+    - name: quiz-data
+      mountPath: /data/db
+
