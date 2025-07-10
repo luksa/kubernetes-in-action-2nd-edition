@@ -31,9 +31,9 @@ data:
               common_tls_context:
                 tls_certificates:
                 - certificate_chain:
-                    filename: "/etc/config/example-com.crt"
+                    filename: "/etc/certs/example-com.crt"
                   private_key:
-                    filename: "/etc/config/example-com.key"
+                    filename: "/etc/certs/example-com.key"
           filters:
           - name: envoy.filters.network.http_connection_manager
             typed_config:
