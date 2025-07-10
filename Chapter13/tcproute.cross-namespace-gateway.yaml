@@ -1,0 +1,12 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: cross-namespace-gateway
+spec:
+  parentRefs:
+  - name: shared
+    namespace: gateway-namespace
+  rules:
+  - backendRefs:
+    - name: test
+      port: 2000

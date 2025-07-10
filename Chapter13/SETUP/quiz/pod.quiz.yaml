@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quiz
+  labels:
+    app: quiz
+    rel: stable
+spec:
+  volumes:
+  - name: initdb
+    emptyDir: {}
+  - name: quiz-data
+    persistentVolumeClaim:
+      claimName: quiz-data
+  initContainers:
+  - name: installer
+    image: luksa/quiz-initdb-script-installer:0.1
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: initdb
+      mountPath: /initdb.d
+  containers:
+  - name: quiz-api
+    image: luksa/quiz-api:0.1
+    imagePullPolicy: Always
+    ports:
+    - name: http
+      containerPort: 8080
+    readinessProbe:
+      httpGet:
+        port: 8080
+        path: /healthz/ready
+        scheme: HTTP
+  - name: mongo
+    image: mongo:5
+    volumeMounts:
+    - name: quiz-data
+      mountPath: /data/db
+    - name: initdb
+      mountPath: /docker-entrypoint-initdb.d/
+      readOnly: true

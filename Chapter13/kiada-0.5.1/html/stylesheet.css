@@ -1,0 +1,339 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    background-color: #586256;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 580px;
+    height: 100%;
+    background-color: white;
+}
+
+#cover {
+    position: absolute;
+    top: 0;
+    right: 80px;
+}
+
+#content {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    max-width: calc(100% - 800px);
+}
+
+.bubble {
+    background-color: white;
+    /*border: solid black 1px;*/
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 10px 10px 20px 0px #333333;
+}
+
+.bubble h1 {
+    margin-top: 0;
+    font-size: 1.6em;
+}
+
+#quote {
+
+}
+
+#quote-text {
+    line-height: 1.6em;
+}
+
+code {
+    font-family: Mono, monospace;
+    padding: 0.2em 0.4em;
+    margin: 0 0.2em;
+    font-size: 85%;
+    background-color: rgba(128,128,128,0.2);
+    border: solid #999999 1px;
+    border-radius: 4px;
+}
+
+#quiz {
+
+}
+
+#question {
+    font-weight: bold;
+}
+
+ol#answers {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ol#answers li {
+    border: solid transparent 2px;
+    border-radius: 10px;
+    margin-bottom: 0.2em;
+}
+ol#answers li.selectable:hover {
+    border: solid #cccccc 2px;
+}
+ol#answers li input[type=radio]:before {
+    /*line-height: 1.3em;*/
+    /*content: '\2610';*/
+    text-align: center;
+    border: solid #cccccc 2px;
+    color: #666666;
+    border-radius: 25%;
+    height: 1.1em;
+    width: 1.1em;
+    display: inline-block;
+    margin: 0.2em;
+    font-weight: bold;
+}
+ol#answers li input[type=radio]:disabled:before {
+    color: #cccccc;
+}
+ol#answers li input[type=radio] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin: 0;
+    display: inline-block;
+    width: 2em;
+}
+ol#answers li label {
+    cursor: pointer;
+    display: inline-block;
+    max-width: calc(100% - 2em - 16px);
+    padding-top: 0.5em;
+    padding-bottom: 0.4em;
+    min-height: 1.6em;
+    vertical-align: top;
+    line-height: 1.6em;
+    width: 100%;
+}
+ol#answers li input:disabled+label {
+    opacity: 20%;
+}
+
+ol#answers li.correct-answer +input[type=radio]:checked {
+    border: solid black 2px;
+}
+
+ol#answers li.selected-answer {
+    border: solid black 2px;
+}
+
+ol#answers li.correct-answer {
+    color: #689654;
+}
+ol#answers li.correct-answer-selected {
+    color: #689654;
+    border: solid #689654 2px;
+}
+ol#answers li.correct-answer input[type=radio]:before, ol#answers li.correct-answer-selected input[type=radio]:before {
+    border-color: #689654;
+    color: #689654;
+    opacity: 100%;
+}
+ol#answers li.correct-answer input[type=radio],ol#answers li.correct-answer-selected input[type=radio] {
+    color: #689654;
+}
+ol#answers li.correct-answer input:disabled+label,ol#answers li.correct-answer-selected input:disabled+label {
+    color: black;
+    opacity: 100%;
+}
+
+ol#answers li.incorrect-answer {
+    color: #b73829;
+    border: solid #b7382933 2px;
+}
+ol#answers li.incorrect-answer input[type=radio] {
+    color: #b73829;
+}
+ol#answers li.incorrect-answer input[type=radio]:before {
+    color: #b73829;
+    border-color: #b73829;
+    opacity: 20%;
+}
+ol#answers li.incorrect-answer input:disabled+label {
+    color: #b73829;
+}
+
+ol#answers li#answer-0-li input[type=radio]:before {
+    content: 'A';
+}
+ol#answers li#answer-1-li input[type=radio]:before {
+    content: 'B';
+}
+ol#answers li#answer-2-li input[type=radio]:before {
+    content: 'C';
+}
+ol#answers li#answer-3-li input[type=radio]:before {
+    content: 'D';
+}
+ol#answers li#answer-4-li input[type=radio]:before {
+    content: 'E';
+}
+ol#answers li#answer-5-li input[type=radio]:before {
+    content: 'F';
+}
+ol#answers li#answer-6-li input[type=radio]:before {
+    content: 'G';
+}
+ol#answers li#answer-7-li input[type=radio]:before {
+    content: 'H';
+}
+ol#answers li#answer-8-li input[type=radio]:before {
+    content: 'I';
+}
+
+input[type=button] {
+    color: #eeeeee;
+    font-weight: bold;
+    font-size: 1em;
+    background-color: #689654;
+    padding: 10px;
+    border: solid #333333 1px;
+    border-radius: 6px;
+    box-shadow: 5px 5px 8px 0px #666666;
+    margin-right: 20px;
+}
+
+input[type=button]:disabled {
+    opacity: 80%;
+    color: #999999;
+    background-color: #586256;
+}
+
+input[type=button]:active {
+    transform: translateX(2px) translateY(4px);
+    box-shadow: 3px 3px 8px 0px #666666;
+}
+
+input[type=button]:hover:not([disabled]),input[type=button]:focus {
+    color: white;
+    border: solid #cccccc 1px;
+    cursor: pointer;
+    outline: 0;
+}
+
+#links {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#links,a:link,a:visited,a:hover,a:active {
+    color: #cccccc;
+}
+
+#links a:hover {
+    color: white;
+}
+
+#links ul {
+    list-style-type: circle;
+}
+
+#links li {
+    margin: .3em 0;
+}
+
+#request-info {
+    color: #cccccc;
+    margin-top: 30px;
+    padding-top: 10px;
+    /*border-top: solid #cccccc 1px;*/
+    font-size: .85em;
+}
+
+#error-popups {
+    position: fixed;
+    top: 80px;
+    right: 50px;
+    width: 400px;
+}
+
+.error-popup {
+    background-color: #ea4838;
+    color: white;
+    /*border: solid black 1px;*/
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 10px 0px #666666;
+}
+
+.fade-in {
+    animation: fadeIn .1s ease;
+    -webkit-animation: fadeIn .1s ease;
+    -moz-animation: fadeIn .1s ease;
+    -o-animation: fadeIn .1s ease;
+    -ms-animation: fadeIn .1s ease;
+}
+
+.fade-out {
+    animation: fadeOut 2s ease-in;
+    -webkit-animation: fadeOut 2s ease-in;
+    -moz-animation: fadeOut 2s ease-in;
+    -o-animation: fadeOut 2s ease-in;
+    -ms-animation: fadeOut 2s ease-in;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@keyframes fadeOut {
+    0% {opacity:1; }
+    100% {opacity:0; }
+    /*0% {opacity:1; transform: translateY(0);}*/
+    /*100% {opacity:0; transform: translateY(-100%);}*/
+}
+
+@-moz-keyframes fadeOut {
+    0% {opacity:1;}
+    100% {opacity:0;}
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity:1;}
+    100% {opacity:0;}
+}
+
+@-o-keyframes fadeOut {
+    0% {opacity:1;}
+    100% {opacity:0;}
+}
+
+@-ms-keyframes fadeOut {
+    0% {opacity:1;}
+    100% {opacity:0;}
+}
+

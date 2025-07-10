@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kiada
+spec:
+  parentRefs:
+  - name: kiada
+  rules:
+  - backendRefs:
+    - name: kiada-stable
+      port: 80
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: networking.example.com
+        kind: SomeCustomFilter
+        name: kiada-filter

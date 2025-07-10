@@ -1,0 +1,23 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kiada
+  labels:
+    suite: kiada
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret      # can also omit kind, since it defaults to Secret
+        name: kiada-tls
+      options:
+        example.com/my-custom-option: my-value
+        example.com/my-other-custom-option: my-other-value

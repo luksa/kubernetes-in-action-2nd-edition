@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: test-gtw
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: tcp200
+    port: 200
+    protocol: TCP
+  - name: udp300
+    port: 300
+    protocol: UDP
+  - name: grpc
+    port: 900
+    protocol: HTTP
+    hostname: 'test.example.com'

@@ -1,0 +1,44 @@
+
+#####################
+
+kubectl apply -k github.com/kubernetes-sigs/gateway-api/config/crd/experimental
+
+istioctl install -y --set profile=minimal
+
+
+#####################
+
+k apply -f gtw.kiada.yaml
+
+k get gtw kiada
+
+cat /etc/hosts | grep kiada
+
+k tree gtw kiada
+
+k get deploy kiada-istio -oyaml
+
+k get pod kiada-istio- -oyaml
+
+#####################
+
+k apply -f httproute.kiada.yaml
+
+k get httproute kiada -oyaml
+
+curl kiada.example.com
+
+#####################
+
+k apply -f httproute.kiada.splitting.yaml
+
+k logs -l app=kiada,rel=stable --prefix -f | grep -v healthz
+k logs kiada-new --prefix -f | grep --line-buffered "Received request" | grep -v healthz
+
+
+#####################
+
+k apply -f httproute.kiada.mirroring.yaml
+
+k logs kiada-new -f | grep --line-buffered "Received request" | grep -v healthz
+

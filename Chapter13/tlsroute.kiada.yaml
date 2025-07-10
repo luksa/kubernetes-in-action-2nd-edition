@@ -1,0 +1,13 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: kiada
+spec:
+  parentRefs:
+  - name: kiada
+  hostnames:
+  - kiada.example.com
+  rules:
+  - backendRefs:
+    - name: kiada-stable
+      port: 443

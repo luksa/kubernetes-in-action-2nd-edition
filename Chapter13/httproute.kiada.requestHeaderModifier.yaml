@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kiada
+spec:
+  parentRefs:
+  - name: kiada
+  rules:
+  - backendRefs:
+    - name: kiada-stable
+      port: 80
+    filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: added-by-gateway
+          value: This header was added via requestHeaderModifier
+        remove:
+        - RemoveMe
+        set:
+        - name: set-by-gateway
+          value: This header was set via requestHeaderModifier
