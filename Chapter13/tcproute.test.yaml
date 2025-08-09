@@ -4,7 +4,7 @@ metadata:
   name: test
 spec:
   parentRefs:
-  - name: test
+  - name: test-gtw
   rules:
   - backendRefs:
     - name: test
