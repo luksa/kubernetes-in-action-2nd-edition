@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
+kubectl create namespace metallb-system
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 
 KIND_ADDRESS_RANGE=$(docker network inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r)
 if [[ "$KIND_ADDRESS_RANGE" == *.0.0/16 ]]; then
@@ -14,18 +14,26 @@ else
   exit 1
 fi
 
+# Waiting till the controller is running.
+kubectl -n metallb-system rollout status deployment controller
+
 kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
 metadata:
+  name: l2-ip
   namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: default
-      protocol: layer2
-      addresses:
-      - $LB_ADDRESS_RANGE
+spec:
+  ipAddressPools:
+  - default-pool
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - $LB_ADDRESS_RANGE
 EOF
 
