@@ -14,7 +14,7 @@ build:
 
 image: build
 	@echo "Building image $(FULL_IMAGE_TAG)"
-	docker build -t $(FULL_IMAGE_TAG) ./
+	docker build --platform linux/amd64,linux/arm64 -t $(FULL_IMAGE_TAG) ./
 
 push: image
 	docker push $(FULL_IMAGE_TAG)
