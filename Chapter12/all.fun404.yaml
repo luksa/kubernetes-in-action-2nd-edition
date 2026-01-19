@@ -9,6 +9,8 @@ spec:
   - name: server
     image: luksa/static-http-server:0.1
     imagePullPolicy: IfNotPresent
+    command:
+    - /static-http-server
     args:
     - --listen-address=:8080
     - --response-code=404
