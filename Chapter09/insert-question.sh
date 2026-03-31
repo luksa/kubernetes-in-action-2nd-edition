@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-kubectl exec -it quiz -c mongo -- mongosh kiada <<EOF
+kubectl exec -i quiz -c mongo -- mongosh kiada <<EOF
 db.questions.insertOne({
   id: 1,
   text: "What does k8s mean?",
