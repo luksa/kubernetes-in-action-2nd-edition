@@ -18,7 +18,7 @@ RUN --mount=target=. \
     --mount=type=cache,target=/root/.cache/go-build \
     GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/quiz-api .
 
-# 3. Create the
+# 3. Create the platform-specific binary images
 FROM scratch AS bin-unix
 COPY --from=build /out/quiz-api /
 
@@ -27,5 +27,5 @@ FROM bin-unix AS bin-darwin
 FROM scratch AS bin-windows
 COPY --from=build /out/quiz-api /quiz-api.exe
 
-#
+# 4. Select the final binary image based on the target OS
 FROM bin-${TARGETOS} AS bin
